@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- vs code default template, check later if change something -->
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Guichê de Caixa</title>
@@ -8,322 +9,303 @@
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
 </head>
 
-<body onload="startup()">
-    <div id="header">
+<body>
+
+    <header>
         <div class="headerInfo">
-            <p class="headerText" id="infoTexto">INFO</p>
+            <p class="headerText" id="headerInfoText">INFO</p>
         </div>
         <div class="headerInfo">
-            <p class="headerText" id="horarioTexto">10:00</p>
+            <p class="headerText" id="headerTimeText">10:00</p>
         </div>
-    </div>
+    </header>
 
     <div id="content">
-        <div class="screen" id="screen1">
 
-            <div class="" id="start">
+        <div class="mainSector" id="start">
+
+            <div class="subSector" id="menu">
                 <p class="headerText">GUICHÊ DE CAIXA</p>
-                <select class="selector" name="" id="difficultySelector">
-                    <option value="Facil">Fácil</option>
-                    <option value="Normal">Normal</option>
-                    <option value="Dificil">Difícil</option>
+                <select id="difficultySelector">
+                    <option value="easy">Fácil</option>
+                    <option value="normal">Normal</option>
+                    <option value="hard">Difícil</option>
                 </select>
-                <a class="startButton" id="buttonNewGame" onclick="">
+                <button class="actionButton" id="buttonNew">
                     <p>NOVO</p>
-                </a>
+                </button>
             </div>
 
-            <div class="" id="statistics" style="display: none;">
-                <div class="estatisticaSplit" id="">
-                    <div class="estatisticaInfo" id="">
-                        <p class="filaInfoText">HISTÓRICO TOTAL</p>
-                        <p class="filaInfoText">Atendimentos: 0</p>
-                        <p class="filaInfoText">No Prazo: 0</p>
-                        <p class="filaInfoText">Fora do Prazo: 0</p>
-                        <p class="filaInfoText">Documentos: 0</p>
-                        <p class="filaInfoText">Reclamações: 0</p>
-                        <p class="filaInfoText">Pontos: 0</p>
-                    </div>
+            <div class="subSector" id="statistics" style="display: none;">
+                <div class="statisticsInfo">
+                    <p class="infoText">HISTÓRICO TOTAL</p>
+                    <p class="infoText">Atendimentos: 0</p>
+                    <p class="infoText">No Prazo: 0</p>
+                    <p class="infoText">Fora do Prazo: 0</p>
+                    <p class="infoText">Documentos: 0</p>
+                    <p class="infoText">Reclamações: 0</p>
+                    <p class="infoText">Pontos: 0</p>
                 </div>
-                <div class="estatisticaSplit" id="">
-                    <div class="estatisticaInfo" id="">
-                        <p class="filaInfoText">PARTIDA ATUAL</p>
-                        <p class="filaInfoText">Atendimentos: 0</p>
-                        <p class="filaInfoText">No Prazo: 0</p>
-                        <p class="filaInfoText">Fora do Prazo: 0</p>
-                        <p class="filaInfoText">Documentos: 0</p>
-                        <p class="filaInfoText">Reclamações: 0</p>
-                        <p class="filaInfoText">Orçamento: 0</p>
-                    </div>
+                <div class="statisticsInfo">
+                    <p class="infoText">PARTIDA ATUAL</p>
+                    <p class="infoText">Atendimentos: 0</p>
+                    <p class="infoText">No Prazo: 0</p>
+                    <p class="infoText">Fora do Prazo: 0</p>
+                    <p class="infoText">Documentos: 0</p>
+                    <p class="infoText">Reclamações: 0</p>
+                    <p class="infoText">Orçamento: 0</p>
                 </div>
             </div>
 
-            <div class="footer" id="footerStart">
-                <input class="radioHack" type="radio" name="radioStart" id="radioStart1" checked="checked"/>
-                <label class="startButton" for="radioStart1" id="buttonMenu" onclick="showMenu(1)">
+            <footer class="subFooter">
+                <button class="tabFooter" tabindex="1">
                     <p>MENU</p>
-                </label>
-                <input class="radioHack" type="radio" name="radioStart" id="radioStart2"/>
-                <label class="startButton" for="radioStart2" id="buttonStatistics" onclick="showMenu(2)">
+                </button>
+                <button class="tabFooter" tabindex="2">
                     <p>ESTATÍSTICAS</p>
-                </label>
-            </div>
+                </button>
+            </footer>
 
         </div>
 
-        <div class="screen" id="screen2">
-            <div class="" id="guicheListScreen">
-                <div class="guiche" id="guiche1" onclick="guicheClick(1)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">1</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText1">C</p>
-                        </div>
+        <div class="mainSector" id="tellers">
+
+            <div class="subSector" id="tellerList" style="display: none;">
+                <div class="teller" id="teller1" tabindex="1">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber1">1</p>
+                        <p class="tellerInfo" id="tellerType1">C</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress1"></div>
-                    </div>
-                </div>
-                <div class="guiche" id="guiche2" onclick="guicheClick(2)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">2</p>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar1"></div>
                         </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText2">C</p>
-                        </div>
-                    </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress2"></div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche3" onclick="guicheClick(3)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">3</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText3">C</p>
-                        </div>
+                <div class="teller" id="teller2" tabindex="2">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber2">2</p>
+                        <p class="tellerInfo" id="tellerType2">P</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress3"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar2"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche4" onclick="guicheClick(4)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">4</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText4">C</p>
-                        </div>
+                <div class="teller" id="teller3" tabindex="3">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber3">3</p>
+                        <p class="tellerInfo" id="tellerType3">R</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress4"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar3"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche5" onclick="guicheClick(5)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">5</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText5">C</p>
-                        </div>
+                <div class="teller" id="teller4" tabindex="4">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber4">4</p>
+                        <p class="tellerInfo" id="tellerType4">C</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress5"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar4"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche6" onclick="guicheClick(6)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">6</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText6">C</p>
-                        </div>
+                <div class="teller" id="teller5" tabindex="5">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber5">5</p>
+                        <p class="tellerInfo" id="tellerType5">C</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress6"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar5"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche7" onclick="guicheClick(7)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">7</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText7">C</p>
-                        </div>
+                <div class="teller" id="teller6" tabindex="6">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber6">6</p>
+                        <p class="tellerInfo" id="tellerType6">C</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress7"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar6"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche8" onclick="guicheClick(8)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">8</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText8">C</p>
-                        </div>
+                <div class="teller" id="teller7" tabindex="7">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber7">7</p>
+                        <p class="tellerInfo" id="tellerType7">C</p>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress8"></div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar7"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="guiche" id="guiche9" onclick="guicheClick(9)">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo">
-                        <div class="guicheNumber">
-                            <p class="guicheInfoText">9</p>
-                        </div>
-                        <div class="guicheType">
-                            <p class="guicheInfoText" id="guicheTypeText9">C</p>
+                <div class="teller" id="teller8" tabindex="8">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber8">8</p>
+                        <p class="tellerInfo" id="tellerType8">C</p>
+                    </div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar8"></div>
                         </div>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheBarProgress9"></div>
+                </div>
+                <div class="teller" id="teller9" tabindex="9">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumber9">1</p>
+                        <p class="tellerInfo" id="tellerType9">C</p>
+                    </div>
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBar9"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="" id="guicheSelectedScreen" style="display: none;">
-                <div class="guiche" id="guicheSelected" onclick="">
-                    <img class="guicheImage" src="img/person.png" alt="image">
-                    <div class="guicheInfo" id="guicheInfoSelected">
-                        <div class="actionButtonArea" id="actionButtonAreaSelected">
-                            <div class="guicheNumber">
-                                <p class="guicheInfoText" id="guicheSelectedNumber">1</p>
-                            </div>
-                            <div class="guicheType">
-                                <p class="guicheInfoText" id="guicheSelectedTypeText">C</p>
-                            </div>
-                        </div>
-                        <div class="actionButtonArea" id="actionButtonAreaSelectedTypePro">
-                            <select class="selector" name="" id="proSelector">
-                                <option value="Comum">Comum</option>
+
+            <div class="subSector" id="tellerSelectedContainer">
+                <div class="teller" id="tellerSelected" tabindex="0">
+                    <img class="tellerImage" src="img/person.png" alt="tellerImage">
+
+                    <div class="tellerHeader">
+                        <p class="tellerInfo" id="tellerNumberSelected">0</p>
+                        <p class="tellerInfo" id="tellerTypeSelected">X</p>
+                    </div>
+
+                    <div id="tellerContentWrapper">
+                        <div class="tellerContent">
+                            <select id="tellerSelectPro">
+                                <option value="Regular">Comum</option>
                                 <option value="Pro">Pro</option>
                             </select>
-                            <select class="selector" name="" id="guicheTypeSelector">
-                                <option value="Convencional">Convencional</option>
-                                <option value="Preferencial">Preferencial</option>
-                                <option value="Rapido">Rápido</option>
+                            <select id="tellerSelectType">
+                                <option value="Standard">Convencional</option>
+                                <option value="Priority">Preferencial</option>
+                                <option value="Express">Rápido</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="actionButtonArea" id="actionButtonAreaGuiche"">
-                        <div class="actionButton" id="actionButtonGuicheVoltar" onclick="guicheClick(0)">
-                            <p>VOLTAR</p>
+                        
+                        <div class="tellerContent">
+                            <div class="actionButton" id="tellerBack">
+                                <p>VOLTAR</p>
+                            </div>
+                            <div class="actionButton" id="tellerActivate">
+                                <p>ATIVAR</p>
+                            </div>
                         </div>
-                        <div class="actionButton" id="actionButtonGuicheAtivar" onclick="guicheAtivar()">
-                            <p>ATIVAR</p>
-                        </div>
                     </div>
-                    <div class="guicheBarGrey">
-                        <div class="guicheBarProgress" id="guicheSelectedBarProgress1"></div>
+
+                    <div class="tellerFooter">
+                        <div class="progress">
+                            <div class="progressBar" id="progressBarSelected"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="screen" id="screen3">
-            <div class="" id="espera">
-                <p class="filaInfoText">ESPERA</p>
-                <div class="filaInfo" id="">
-                    <pc class="filaInfoText">Convencional</pc>
-                    <div class="filaBarGrey">
-                        <div class="filaBarProgress" id="filaBarProgressConvencional"></div>
+        <div class="mainSector" id="lines">
+            <div id="waiting">
+                <p >ESPERA</p>
+                <div class="lineInfoContainer">
+                    <p class="lineInfo">Convencional</p>
+                    <div class="progress progressLine">
+                        <div class="progressBar" id="progressBarLineStandard"></div>
                     </div>
-                    <div class="filaInfoContagem">
-                        <p class="filaInfoText">5 pessoas</p><p class="filaInfoText">10 minutos</p>
-                    </div>
-                </div>
-                <div class="filaInfo">
-                    <p class="filaInfoText">Preferencial</p>
-                    <div class="filaBarGrey">
-                        <div class="filaBarProgress" id="filaBarProgressPreferencial"></div>
-                    </div>
-                    <div class="filaInfoContagem">
-                        <p class="filaInfoText">5 pessoas</p><p class="filaInfoText">10 minutos</p>
+                    <div class="lineCounters">
+                        <p class="lineInfo" id="customerCountStandard">5 pessoas</p>
+                        <p class="lineInfo" id="timeCountStandard">10 minutos</p>
                     </div>
                 </div>
-                <div class="filaInfo">
-                    <p class="filaInfoText">Rápido</p>
-                    <div class="filaBarGrey">
-                        <div class="filaBarProgress" id="filaBarProgressRapido"></div>
+                <div class="lineInfoContainer">
+                    <p class="lineInfo">Preferencial</p>
+                    <div class="progress progressLine">
+                        <div class="progressBar" id="progressBarLinePriority"></div>
                     </div>
-                    <div class="filaInfoContagem">
-                        <p class="filaInfoText">5 pessoas</p><p class="filaInfoText">10 minutos</p>
+                    <div class="lineCounters">
+                        <p class="lineInfo" id="customerCountPriority">5 pessoas</p>
+                        <p class="lineInfo" id="timeCountPriority">10 minutos</p>
+                    </div>
+                </div>
+                <div class="lineInfoContainer">
+                    <p class="lineInfo">Rápido</p>
+                    <div class="progress progressLine">
+                        <div class="progressBar" id="progressBarLineExpress"></div>
+                    </div>
+                    <div class="lineCounters">
+                        <p class="lineInfo" id="customerCountExpress">5 pessoas</p>
+                        <p class="lineInfo" id="timeCountExpress">10 minutos</p>
                     </div>
                 </div>
             </div>
-            <div class="recepcao" id="recepcaoFila" style="display: none;">
-                <p class="filaInfoText">Recepção</p>
-                <div class="filaInfo" id="">
-                    <pc class="filaInfoText">Entrada</pc>
-                    <div class="filaBarGrey">
-                        <div class="filaBarProgress" id="filaBarProgressConvencional"></div>
+            <div class="reception" style="display: none;">
+                <p>RECEPÇÃO</p>
+                <div class="lineInfoContainer">
+                    <p class="lineInfo">Entrada</p>
+                    <div class="progress progressLine">
+                        <div class="progressBar" id="progressBarLineReception"></div>
                     </div>
-                    <div class="filaInfoContagem">
-                        <p class="filaInfoText">5 pessoas</p><p class="filaInfoText">10 minutos</p>
+                    <div class="lineCounters">
+                        <p class="lineInfo" id="customerCountReception">5 pessoas</p>
+                        <p class="lineInfo" id="timeCountReception">10 minutos</p>
                     </div>
                 </div>
-                <a class="startButton" id="buttonNewGame" onclick="">
+                <button class="actionButton" id="buttonServe">
                     <p>ATENDER</p>
-                </a>
+                </button>
             </div>
-            <div class="recepcao" id="recepcaoCliente">
-                <p class="filaInfoText">CLIENTE</p>
-                <div class="filaInfo" id="filaInfoCliente">
-                    <p class="filaInfoText">Documentos: 10</p>
-                    <p class="filaInfoText">10s...</p>
-                    <select class="selector" name="" id="difficultySelector">
-                        <option value="Convencional">Convencional</option>
-                        <option value="Preferencial">Preferencial</option>
-                        <option value="Rapido">Rápido</option>
+            <div class="reception" id="receptionCustomer">
+                <p>CLIENTE</p>
+                <div class="lineInfoContainer" id="receptionCustomerInfo">
+                    <p class="lineInfo">Documentos: 10</p>
+                    <p class="lineInfo">10s...</p>
+                    <select id="difficultySelector">
+                        <option value="Standard">Convencional</option>
+                        <option value="Priority">Preferencial</option>
+                        <option value="Express">Rápido</option>
                     </select>
                 </div>
-                <div class="actionButtonArea" id="actionButtonAreaCliente"">
-                    <a class="actionButton" id="buttonClienteRecusar" onclick="">
+                <div id="actionButtonCustomerContainer"">
+                    <button class="actionButton" id="buttonCustomerRefuse">
                         <p>RECUSAR</p>
-                    </a>
-                    <a class="actionButton" id="buttonClienteAceitar" onclick="">
+                    </button>
+                    <button class="actionButton" id="buttonCustomerAccept">
                         <p>ACEITAR</p>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="footer" id="footerMain">
-        <input class="radioHack" type="radio" name="radioFooter" id="radioScreen1" checked="checked" />
-        <label class="navButton" for="radioScreen1" id="buttonScreen1" onclick="showScreen(1)">
+    <footer class="mainFooter">
+        <button class="tabFooter tabMainFooter" tabindex="1">
             <p>INÍCIO</p>
-        </label>
-
-        <input class="radioHack" type="radio" name="radioFooter" id="radioScreen2"/>
-        <label class="navButton" for="radioScreen2" id="buttonScreen2" onclick="showScreen(2)">
-            <p>CAIXAS</p>
-        </label>
-
-        <input class="radioHack" type="radio" name="radioFooter" id="radioScreen3"/>
-        <label class="navButton" for="radioScreen3" id="buttonScreen3" onclick="showScreen(3)">
+        </button>
+        <button class="tabFooter tabMainFooter" tabindex="2">
+            <p>GUICHÊS</p>
+        </button>
+        <button class="tabFooter tabMainFooter" tabindex="3">
             <p>FILAS</p>
-        </label>
-    </div>
+        </button>
+    </footer>
 
     <script src='main.js'></script>
 </body>

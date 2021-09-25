@@ -1,97 +1,107 @@
 "use strict";
 
+// simple variables
 let match = false;
 let pause = false;
 
+
+// pseudo classes
 const Type = {
-    Convencional: 1,
-    Preferencial: 2,
-    Rapido: 3
+    Standard: 1,
+    Priority: 2,
+    Express: 3
 }
 
-let Cliente = {
-    ClientType: 0, // enum const Type above
-    ClientPatience: 0, // 1 to 10, affects complaints
-    Complaint: false, // will depend on patience and time of waiting
-    Documents: 0
+let Customer = {
+    customerType: 0, // enum const Type above
+    customerPatience: 0, // 1 to 10, affects complaints
+    complaint: false, // will depend on patience and time of waiting
+    documents: 0
 }
 
-const Guiche = {
-    GuicheType: 0, // enum Type, type of client this guiche will serve
-    Active: false,
-    Speed: 0, // random generated guiche documents processing speed, from 1 to 5
-    Pro: false, // pro guiche will work faster but more expensive
-    DocumentsProcessed: 0, // number of docs processed from clients (also used to check if already activated and worked)
-    Cliente // Client being served
+const Teller = {
+    tellerType: Type, // enum Type, type of customer this teller will serve
+    active: false,
+    speed: 0, // random generated teller documents processing speed, from 1 to 5
+    pro: false, // pro teller will work faster but more expensive
+    documentsProcessed: 0, // number of docs processed from customers (also used to check if already activated and worked)
+    customer: Customer // customer being served
 }
 
-const filaEntrada = [];
-const filaConvencional = [];
-const filaPreferencial = [];
-const filaRapido = [];
-const guiches = [{guiche1: Guiche},{guiche2: Guiche},{guiche3: Guiche},{guiche4: Guiche},{guiche5: Guiche},
-    {guiche6: Guiche},{guiche7: Guiche},{guiche8: Guiche},{guiche9: Guiche}];
+// objects
+const lineReception = [];
+const lineStandard = [];
+const linePriority = [];
+const lineExpress = [];
+const tellers = [{teller1: Teller},{teller2: Teller},{teller3: Teller},{teller4: Teller},{teller5: Teller},
+    {teller6: Teller},{teller7: Teller},{teller8: Teller},{teller9: Teller}];
+
+
+window.addEventListener('load', (event) => {
+    startup();
+});
+
 
 // functions //
 function startup(){
-    showScreen(1);
+    let tabFooters = document.getElementsByClassName("tabMainFooter");
+    for (let t of tabFooters){
+        t.addEventListener('click', selectMainSector, false);
+    }
+    tabFooters[0].click();
 }
 
-function showScreen(screen){
-    switch(screen){
+function selectMainSector(e){
+
+    // change selected tab css class
+    let tabFooters = document.getElementsByClassName("tabMainFooter");
+    for (let t of tabFooters){
+        t.className = t.className.replace(" active", "");
+    }
+    e.currentTarget.className += " active";
+
+    // select corresponding sector
+    switch(parseInt(e.currentTarget.tabIndex)){
         case 3:
-            screen1.style.display = "none";
-            screen2.style.display = "none";
-            screen3.style.display = "flex";
-            break;
+            document.getElementById("lines").style.display = "flex";
+            document.getElementById("tellers").style.display = "none";
+            document.getElementById("start").style.display = "none";
+        break;
         case 2:
-            screen1.style.display = "none";
-            screen2.style.display = "flex";
-            screen3.style.display = "none";
-            break;
+            document.getElementById("lines").style.display = "none";
+            document.getElementById("tellers").style.display = "flex";
+            document.getElementById("start").style.display = "none";
+        break;
         default:
-            screen1.style.display = "flex";
-            screen2.style.display = "none";
-            screen3.style.display = "none";
-            break;
+            document.getElementById("lines").style.display = "none";
+            document.getElementById("tellers").style.display = "none";
+            document.getElementById("start").style.display = "flex";
+        break;
     }
 }
 
-function showMenu(menu){
-    switch(menu){
-        case 2:
-            start.style.display = "none";
-            statistics.style.display = "flex";
-            break;
-        case 1:
-            start.style.display = "flex";
-            statistics.style.display = "none";
-            break;
-    }
-}
 
-function guicheClick(guicheNum){
-    // alert("você clicou no guichê " + guicheNum);
-    if (guicheNum === 0){
-        guicheListScreen.style.display = "flex";
-        guicheSelectedScreen.style.display = "none";
-    }else{
-        guicheListScreen.style.display = "none";
-        guicheSelectedScreen.style.display = "flex";
-        guicheSelectedNumber.innerHTML = guicheNum;
-    }
-}
-
-function guicheVoltar(){
+function showSubSector(){
     
 }
 
-let testObject = { 'one': 1, 'two': 2, 'three': 3 };
+function tellerClick(tellerNum){
+    
+}
 
-// Put the object into storage
-sessionStorage.setItem('testObject', JSON.stringify(testObject));
+function tellerBack(){
+    
+}
 
-// Retrieve the object from storage
-let retrievedObject = sessionStorage.getItem('testObject');
 
-console.log('retrievedObject: ', JSON.parse(retrievedObject));
+// SOME REFERENCE ABOUT STORING DATA INTO SESSIONSTORAGE (OR LOCALSTORAGE):
+
+// let testObject = { 'one': 1, 'two': 2, 'three': 3 };
+
+// // Put the object into storage
+// sessionStorage.setItem('testObject', JSON.stringify(testObject));
+
+// // Retrieve the object from storage
+// let retrievedObject = sessionStorage.getItem('testObject');
+
+// console.log('retrievedObject: ', JSON.parse(retrievedObject));
