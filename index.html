@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- vs code default template, check later if change something -->
+    <!-- vs code default template -->
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Guichê de Caixa</title>
@@ -11,12 +11,28 @@
 
 <body>
 
+    <div class="modalContainer" id="modalStop">
+        <div class="modal">
+            <p>Encerrar a partida?</p>
+            <div class="modalButtonContainer">
+                <button class="actionButton modalButton" id="modalStopCancel">
+                    <p>CANCELAR</p>
+                </button>
+                <button class="actionButton modalButton negativeButton" id="modalStopConfirm">
+                    <p>ENCERRAR</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="headerInfo">
-            <p class="headerText" id="headerInfoText">INFO</p>
+            <p class="headerText">PONTOS</p>
+            <p class="headerText" id="headerInfoGame">0</p>
         </div>
         <div class="headerInfo">
-            <p class="headerText" id="headerTimeText">10:00</p>
+            <p class="headerText">HORA</p>
+            <p class="headerText" id="headerInfoTime">09:50</p>
         </div>
     </header>
 
@@ -31,37 +47,84 @@
                     <option value="normal">Normal</option>
                     <option value="hard">Difícil</option>
                 </select>
-                <button class="actionButton" id="buttonNew">
-                    <p>NOVO</p>
+                <button class="actionButton positiveButton" id="buttonStart">
+                    <p>INICIAR</p>
+                </button>
+                <button class="actionButton negativeButton" id="buttonStop">
+                    <p>ENCERRAR</p>
                 </button>
             </div>
 
-            <div class="subSector" id="statistics" style="display: none;">
+            <div class="subSector" id="statistics">
                 <div class="statisticsInfo">
-                    <p class="infoText">HISTÓRICO TOTAL</p>
-                    <p class="infoText">Atendimentos: 0</p>
-                    <p class="infoText">No Prazo: 0</p>
-                    <p class="infoText">Fora do Prazo: 0</p>
-                    <p class="infoText">Documentos: 0</p>
-                    <p class="infoText">Reclamações: 0</p>
-                    <p class="infoText">Pontos: 0</p>
+                    <p class="infoText infoTextTitle">RECORDES</p>
+                    <div>
+                        <p class="infoText">Atendimentos:&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordCalls"></p>
+                    </div>
+                    <!-- <div>
+                        <p class="infoText">No Prazo:&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordCallsOntime"></p>
+                    </div> -->
+                    <!-- <div>
+                        <p class="infoText">Fora do Prazo:&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordCallsOvertime"></p>
+                    </div> -->
+                    <div>
+                        <p class="infoText">Documentos:&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordDocuments"></p>
+                    </div>
+                    <!-- <div>
+                        <p class="infoText">Reclamações:&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordComplaints"></p>
+                    </div> -->
+                    <div>
+                        <p class="infoText">Pontos (Fácil):&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordScoreEasy"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Pontos (Normal):&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordScoreNormal"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Pontos (Difícil):&nbsp;</p>
+                        <p class="infoText" id="statisticsRecordScoreHard"></p>
+                    </div>
                 </div>
                 <div class="statisticsInfo">
-                    <p class="infoText">PARTIDA ATUAL</p>
-                    <p class="infoText">Atendimentos: 0</p>
-                    <p class="infoText">No Prazo: 0</p>
-                    <p class="infoText">Fora do Prazo: 0</p>
-                    <p class="infoText">Documentos: 0</p>
-                    <p class="infoText">Reclamações: 0</p>
-                    <p class="infoText">Orçamento: 0</p>
+                    <p class="infoText infoTextTitle">PARTIDA ATUAL</p>
+                    <div>
+                        <p class="infoText">Atendimentos:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchCalls"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">No Prazo:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchCallsOntime"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Fora do Prazo:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchCallsOvertime"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Documentos:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchDocuments"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Reclamações:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchComplaints"></p>
+                    </div>
+                    <div>
+                        <p class="infoText">Orçamento:&nbsp;</p>
+                        <p class="infoText" id="statisticsMatchCurrentBudget"></p>
+                    </div>
                 </div>
             </div>
 
             <footer class="subFooter">
-                <button class="tabFooter" tabindex="1">
+                <button class="tabFooter tabStartFooter" tabindex="1">
                     <p>MENU</p>
                 </button>
-                <button class="tabFooter" tabindex="2">
+                <button class="tabFooter tabStartFooter" tabindex="2">
                     <p>ESTATÍSTICAS</p>
                 </button>
             </footer>
@@ -70,7 +133,7 @@
 
         <div class="mainSector" id="tellers">
 
-            <div class="subSector" id="tellerList" style="display: none;">
+            <div class="subSector" id="tellerList">
                 <div class="teller" id="teller1" tabindex="1">
                     <img class="tellerImage" src="img/person.png" alt="tellerImage">
                     <div class="tellerHeader">
@@ -170,7 +233,7 @@
                 <div class="teller" id="teller9" tabindex="9">
                     <img class="tellerImage" src="img/person.png" alt="tellerImage">
                     <div class="tellerHeader">
-                        <p class="tellerInfo" id="tellerNumber9">1</p>
+                        <p class="tellerInfo" id="tellerNumber9">9</p>
                         <p class="tellerInfo" id="tellerType9">C</p>
                     </div>
                     <div class="tellerFooter">
@@ -193,13 +256,14 @@
                     <div id="tellerContentWrapper">
                         <div class="tellerContent">
                             <select id="tellerSelectPro">
-                                <option value="Regular">Comum</option>
-                                <option value="Pro">Pro</option>
+                                <option value="regular">Comum</option>
+                                <option value="pro">Pro</option>
                             </select>
                             <select id="tellerSelectType">
-                                <option value="Standard">Convencional</option>
-                                <option value="Priority">Preferencial</option>
-                                <option value="Express">Rápido</option>
+                                <option value="standard">Convencional</option>
+                                <option value="priority">Preferencial</option>
+                                <option value="express">Expresso</option>
+                                <!-- <option value="internal">Interno</option> -->
                             </select>
                         </div>
                         
@@ -207,9 +271,12 @@
                             <div class="actionButton" id="tellerBack">
                                 <p>VOLTAR</p>
                             </div>
-                            <div class="actionButton" id="tellerActivate">
+                            <button class="actionButton positiveButton" id="tellerEnable">
                                 <p>ATIVAR</p>
-                            </div>
+                            </button>
+                            <button class="actionButton negativeButton" id="tellerDisable">
+                                <p>DESATIVAR</p>
+                            </button>
                         </div>
                     </div>
 
@@ -224,15 +291,21 @@
 
         <div class="mainSector" id="lines">
             <div id="waiting">
-                <p >ESPERA</p>
+                <p class="headerText">ESPERA</p>
                 <div class="lineInfoContainer">
                     <p class="lineInfo">Convencional</p>
                     <div class="progress progressLine">
                         <div class="progressBar" id="progressBarLineStandard"></div>
                     </div>
                     <div class="lineCounters">
-                        <p class="lineInfo" id="customerCountStandard">5 pessoas</p>
-                        <p class="lineInfo" id="timeCountStandard">10 minutos</p>
+                        <div>
+                            <p class="lineInfo">Clientes:&nbsp;</p>
+                            <p class="lineInfo" id="customerCountStandard">0</p>
+                        </div>
+                        <div>
+                            <p class="lineInfo">Minutos:&nbsp;</p>
+                            <p class="lineInfo" id="timeCountStandard">0</p>
+                        </div>
                     </div>
                 </div>
                 <div class="lineInfoContainer">
@@ -241,31 +314,49 @@
                         <div class="progressBar" id="progressBarLinePriority"></div>
                     </div>
                     <div class="lineCounters">
-                        <p class="lineInfo" id="customerCountPriority">5 pessoas</p>
-                        <p class="lineInfo" id="timeCountPriority">10 minutos</p>
+                        <div>
+                            <p class="lineInfo">Clientes:&nbsp;</p>
+                            <p class="lineInfo" id="customerCountPriority">0</p>
+                        </div>
+                        <div>
+                            <p class="lineInfo">Minutos:&nbsp;</p>
+                            <p class="lineInfo" id="timeCountPriority">0</p>
+                        </div>
                     </div>
                 </div>
                 <div class="lineInfoContainer">
-                    <p class="lineInfo">Rápido</p>
+                    <p class="lineInfo">Expresso</p>
                     <div class="progress progressLine">
                         <div class="progressBar" id="progressBarLineExpress"></div>
                     </div>
                     <div class="lineCounters">
-                        <p class="lineInfo" id="customerCountExpress">5 pessoas</p>
-                        <p class="lineInfo" id="timeCountExpress">10 minutos</p>
+                        <div>
+                            <p class="lineInfo">Clientes:&nbsp;</p>
+                            <p class="lineInfo" id="customerCountExpress">0</p>
+                        </div>
+                        <div>
+                            <p class="lineInfo">Minutos:&nbsp;</p>
+                            <p class="lineInfo" id="timeCountExpress">0</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="reception" style="display: none;">
-                <p>RECEPÇÃO</p>
+            <div class="reception" id="receptionLine">
+                <p class="headerText">RECEPÇÃO</p>
                 <div class="lineInfoContainer">
                     <p class="lineInfo">Entrada</p>
                     <div class="progress progressLine">
                         <div class="progressBar" id="progressBarLineReception"></div>
                     </div>
                     <div class="lineCounters">
-                        <p class="lineInfo" id="customerCountReception">5 pessoas</p>
-                        <p class="lineInfo" id="timeCountReception">10 minutos</p>
+                        <div>
+                            <p class="lineInfo">Clientes:&nbsp;</p>
+                            <p class="lineInfo" id="customerCountReception">0</p>
+                        </div>
+                        <div>
+                            <p class="lineInfo">Minutos:&nbsp;</p>
+                            <p class="lineInfo" id="timeCountReception">0</p>
+                        </div>
                     </div>
                 </div>
                 <button class="actionButton" id="buttonServe">
@@ -275,19 +366,22 @@
             <div class="reception" id="receptionCustomer">
                 <p>CLIENTE</p>
                 <div class="lineInfoContainer" id="receptionCustomerInfo">
-                    <p class="lineInfo">Documentos: 10</p>
-                    <p class="lineInfo">10s...</p>
-                    <select id="difficultySelector">
-                        <option value="Standard">Convencional</option>
-                        <option value="Priority">Preferencial</option>
-                        <option value="Express">Rápido</option>
+                    <div>
+                        <p class="lineInfo">Documentos:&nbsp;</p>
+                        <p class="lineInfo" id="lineInfoDocuments">10</p>
+                    </div>
+                    <p class="lineInfo" id="servingCustomerTime">10</p>
+                    <select id="customerType">
+                        <option value="standard">Convencional</option>
+                        <option value="priority">Preferencial</option>
+                        <option value="express">Expresso</option>
                     </select>
                 </div>
-                <div id="actionButtonCustomerContainer"">
-                    <button class="actionButton" id="buttonCustomerRefuse">
+                <div id="actionButtonCustomerContainer">
+                    <button class="actionButton negativeButton" id="buttonCustomerRefuse">
                         <p>RECUSAR</p>
                     </button>
-                    <button class="actionButton" id="buttonCustomerAccept">
+                    <button class="actionButton positiveButton" id="buttonCustomerAccept">
                         <p>ACEITAR</p>
                     </button>
                 </div>

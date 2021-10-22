@@ -14,7 +14,8 @@ html, body{
 }
 
 header{
-    background-color: cornflowerblue;
+    /* background-color: cornflowerblue; */
+    background-color: deepskyblue;
 
     height: 10%;
     display: flex;
@@ -42,16 +43,39 @@ button{
 
 .headerInfo{
     width: 100%;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
 .headerText{
     font-size: larger;
+    /* color: white;
+    text-shadow: 1px 1px 4px black; */
+}
+
+.critical{
+    color: crimson;
+}
+
+.infoText{
+    color: midnightblue;
+}
+
+.infoTextTitle{
+    color: black;
+    width: 99%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 1px 1px 1px grey;
 }
 
 #content{
-    background-color: cornsilk;
+    background-color: aliceblue;
     height: 80%;
     width: 100%;
 }
@@ -79,7 +103,7 @@ button{
     background-color: lightgrey;
 }
 
-.tabFooter.active{
+.tabFooter.tabActive{
     background-color: grey;
 }
 
@@ -104,8 +128,12 @@ button{
     box-shadow: 1px 1px 5px black;
 }
 
-#buttonNew{
-    height: 10%;
+#buttonServe{
+    height: 12%;
+}
+
+#buttonStart, #buttonStop{
+    height: 7%;
 }
 
 .subSector{
@@ -117,12 +145,17 @@ button{
 }
 
 .statisticsInfo{
-    width: 100%;
-    height: 50%;
-    border: 1px solid lightgrey;
+    /* background-color: aliceblue; */
+    width: 99%;
+    height: 49%;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    box-shadow: 1px 1px 3px grey;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5%;
+    margin-top: 0.5%;
+    /* padding: 1%; */
 }
 
 .tellerInfo{
@@ -140,15 +173,19 @@ button{
 }
 
 .teller{
-    background-color: antiquewhite;
+    background-color: inherit;
     position: relative;
     width: 30%;
     height: 30%;
     border-radius: 0.5rem;
+    box-shadow: 1px 1px 5px grey;
 
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+.teller.tellerEnabled{
+    background-color: lightcyan;
 }
 
 .tellerFooter{
@@ -177,9 +214,16 @@ button{
 
 .progressBar{
     border-radius: 0.5rem;
-    background-color: lime;
+    background-color: limegreen;
     height: 100%;
-    width: 80%;
+    width: 0%;
+    /* transition: width 1s linear; */
+}
+.progressBar.alert{
+    background-color: khaki;
+}
+.progressBar.over{
+    background-color: orangered;
 }
 
 .tellerImage{
@@ -188,6 +232,11 @@ button{
     position: absolute;
     bottom: 0;
     z-index: 0;
+    filter: none;
+}
+
+.tellerImage.pro{
+    filter: invert(50%) sepia(50%) saturate(500%) hue-rotate(310deg) brightness(100%) contrast(100%);
 }
 
 @media (min-aspect-ratio: 9/10){
@@ -237,6 +286,14 @@ select{
     justify-content: space-around;
 }
 
+.positiveButton{
+    background-color: limegreen;
+}
+
+.negativeButton{
+    background-color: orangered;
+}
+
 .lineInfoContainer{
     width: 95%;
     height: 25%;
@@ -244,7 +301,8 @@ select{
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-    background-color: blanchedalmond;
+    background-color: azure;
+    border: 1px solid lightgrey;
 }
 
 .progressLine{
@@ -263,14 +321,16 @@ select{
 }
 
 #waiting, .reception{
-    width: 100%;
+    width: 99%;
     height: 49%;
     border-radius: 0.5rem;
-    justify-content: center;
     align-items: center;
-    background-color: antiquewhite;
-    justify-content: space-around;
+    box-shadow: 1px 1px 3px grey;
+    justify-content: space-between;
     flex-direction: column;
+    padding-top: 1%;
+    padding-bottom: 3%;
+    background-color: ye;
 }
 
 #receptionCustomerInfo{
@@ -281,4 +341,42 @@ select{
     justify-content: space-between;
     width: 80%;
     height: 15%;
+}
+
+.modalContainer{
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 100%;
+    left: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+}
+
+.modal{
+    width: 90%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 2px lightgrey;
+}
+
+.modalButtonContainer{
+    width: 90%;
+    height: 10%;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.modalButton{
+    height: 100%;
 }
