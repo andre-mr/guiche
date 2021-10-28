@@ -1,22 +1,25 @@
 "use strict";
 
-// objects
-
 const GameFrameSpeed = {
     Slow: 1500,
     Normal: 1000,
     Fast: 750
 }
 
-
-// classes
+const Game = {
+    recordScoreEasy: 0,
+    recordScoreNormal: 0,
+    recordScoreHard: 0,
+    recordCalls: 0,
+    recordDocuments: 0,
+    totalMatches: 0
+}
 
 // enum pattern:
 class Type {
     static standard = new Type('C');
     static priority = new Type('P');
     static express = new Type('E');
-    // static internal = new Type('I');
 
     constructor(name) {
         this.name = name;
@@ -44,40 +47,27 @@ class Difficulty {
 class Customer {
     constructor(type, rage, complaint, documents, startTime, abandonTime) {
         this.type = type;
-        this.rage = rage; // 0 to 10, affects complaints
-        this.complaint = complaint; // boolean will depend on patience and time of waiting
+        this.rage = rage;
+        this.complaint = complaint;
         this.documents = documents;
-        this.startTime = startTime; // to measure waiting time
+        this.startTime = startTime;
         this.abandonTime = abandonTime
     }
 }
 
 class Teller {
     active = false;
-    type = Type.standard; // enum Type, type of customer this teller will serve
-    speed = 1; // random generated document processing speed, from 1 to 10
-    pro = false; // pro teller will work faster but more expensive
-    documentsProcessed = 0; // number of docs processed from customers (also used to check if already activated and worked)
-    customer; // customer being served
+    type = Type.standard;
+    speed = 1;
+    pro = false;
+    documentsProcessed = 0;
+    customer;
     constructor(number) {
         this.number = number;
     }
 }
 
 
-// variables
-
-// Records
-let recordScoreEasy = 0;
-let recordScoreNormal = 0;
-let recordScoreHard = 0;
-// let recordComplaints = 0;
-let recordCalls = 0;
-let recordDocuments = 0;
-// let recordCallsOntime = 0;
-// let recordCallsOvertime = 0;
-
-// match
 let matchScore = 0;
 let matchComplaints = 0;
 let matchCalls = 0;
@@ -99,7 +89,7 @@ let maxWaitingTime = 15;
 
 let customerServingTime = -1;
 
-// objects
+
 let servingCustomer;
 let selectedTeller;
 const lineReception = [];
@@ -122,8 +112,8 @@ window.addEventListener('load', (event) => {
     startup();
 });
 
-// when game loads
 function startup() {
+    loadGame();
     let tabFooters = document.getElementsByClassName("tabMainFooter");
     for (let tabFooter of tabFooters) {
         tabFooter.addEventListener('click', selectMainSector, false);
@@ -182,6 +172,9 @@ function startup() {
         document.getElementById("teller" + i).className =
             document.getElementById("teller" + i).className.replace(" tellerEnabled", "");
     }
+    updateStatistics();
+
+    document.getElementById("headerInfoGame").innerHTML = "-";
 }
 
 
@@ -195,27 +188,26 @@ function startStopGame() {
     } else {
         buttonStart.style.display = "none";
         buttonStop.style.display = "flex";
-        document.getElementById("headerInfoTime").innerHTML = "09:50";
+        document.getElementById("headerInfoTime").innerHTML = "--:--";
         switch (difficultySelector.value) {
             case "easy":
                 difficulty = Difficulty.easy;
                 gameSpeed = GameFrameSpeed.Slow;
-                matchStartBudget = 1200;
+                matchStartBudget = 900;
                 break;
             case "hard":
                 difficulty = Difficulty.hard;
                 gameSpeed = GameFrameSpeed.Fast;
-                matchStartBudget = 800;
+                matchStartBudget = 700;
                 break;
             default:
                 difficulty = Difficulty.normal;
                 gameSpeed = GameFrameSpeed.Normal;
-                matchStartBudget = 1000;
+                matchStartBudget = 800;
                 break;
         }
         difficultySelector.disabled = true;
-        time = 590;
-        // time = 790;
+        time = 589;
         match = true;
         generationDelay = Math.floor(Math.random() * 10);
         tellers.forEach(teller => {
@@ -268,23 +260,22 @@ function updateGame() {
             document.getElementById("buttonStart").style.display = "flex";
             document.getElementById("buttonStop").style.display = "none";
             document.getElementById("difficultySelector").disabled = false;
+            endGame();
         }
     }
 }
 
-
-// game functions
 function updateTimer(hours, minutes) {
     let headerInfoTime = document.getElementById("headerInfoTime");
     headerInfoTime.innerHTML
         = hours.padStart(2, '0') + ":" + minutes.padStart(2, '0');
-    if (time > 840 && time < 960){
-        if (time % 2 > 0){
+    if (time > 840 && time < 960) {
+        if (time % 2 > 0) {
             headerInfoTime.className += " critical";
-        }else{
+        } else {
             headerInfoTime.className = headerInfoTime.className.replace(" critical", "");
         }
-    }else{
+    } else {
         headerInfoTime.className = headerInfoTime.className.replace(" critical", "");
     }
 }
@@ -292,66 +283,43 @@ function updateTimer(hours, minutes) {
 function generateCustomers() {
     if (generationDelay <= 0) {
         let customer = new Customer();
-        let type;
+        let typeChance = Math.floor(Math.random() * 100) + 1;
+
+        if (typeChance < 40 || (time < 660 && typeChance < 50)) {
+            customer.type = Type.priority;
+        } else {
+            customer.type = Type.standard;
+        }
+        if (customer.type == Type.priority) {
+            customer.documents = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+        } else {
+            customer.documents = Math.floor(Math.random() * (40 - 5 + 1)) + 5;
+        }
+        if (time > 840) {
+            generationDelay = Math.floor(Math.random() * 5) + 1;
+        } else {
+            generationDelay = Math.floor(Math.random() * 10) + 1;
+        }
+
         switch (difficulty) {
             case Difficulty.easy:
-                type = Math.floor(Math.random() * 100) + 1;
-                if (type < 30) {
-                    customer.type = Type.priority;
-                } else {
-                    customer.type = Type.standard;
-                }
-                customer.documents = Math.floor(Math.random() * 20) + 1;
-                if (customer.documents <= 10){
-                    customer.type = Type.express;
-                }
-                customer.rage = Math.floor(Math.random() * 3);
-                customer.complaint = false;
-                if (time > 840){
-                    generationDelay = Math.floor(Math.random() * (15 - 1 + 1)) + 1;
-                }else{
-                    generationDelay = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
-                }
+                customer.rage = Math.floor(Math.random() * 4) + 1;
                 break;
+
             case Difficulty.hard:
-                type = Math.floor(Math.random() * 100) + 1;
-                if (type < 50) {
-                    customer.type = Type.priority;
-                } else {
-                    customer.type = Type.standard;
-                }
-                customer.documents = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
-                if (customer.documents <= 25){
-                    customer.type = Type.express;
-                }
-                customer.rage = Math.floor(Math.random() * 10);
-                customer.complaint = false;
-                if (time > 840){
-                    generationDelay = Math.floor(Math.random() * (5 - 1 + 1)) + 1;
-                }else{
-                    generationDelay = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-                }
+                customer.rage = Math.floor(Math.random() * 8) + 1;
                 break;
+
             default:
-                type = Math.floor(Math.random() * 100) + 1;
-                if (type < 40) {
-                    customer.type = Type.priority;
-                } else {
-                    customer.type = Type.standard;
-                }
-                customer.documents = Math.floor(Math.random() * (30 - 5 + 1)) + 5;
-                if (customer.documents <= 15){
-                    customer.type = Type.express;
-                }
                 customer.rage = Math.floor(Math.random() * 6) + 1;
-                customer.complaint = false;
-                if (time > 840){
-                    generationDelay = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-                }else{
-                    generationDelay = Math.floor(Math.random() * (15 - 1 + 1)) + 1;
-                }
                 break;
         }
+
+        if (customer.documents <= 10 || ((time >= 720 && time < 780) && customer.documents <= 20)) {
+            customer.type = Type.express;
+        }
+
+        customer.complaint = false;
         customer.startTime = time;
         customer.abandonTime = maxWaitingTime + (maxWaitingTime - customer.rage);
         lineReception.push(customer);
@@ -426,7 +394,7 @@ function customerCall() {
                 matchCalls++;
                 if (time - teller[1].customer.startTime > maxWaitingTime) {
                     matchCallsOvertime++;
-                    if (!teller[1].customer.complaint) {
+                    if (difficulty == Difficulty.hard && !teller[1].customer.complaint) {
                         teller[1].customer.complaint = customerComplaint(teller[1].customer.rage);
                     }
                 } else {
@@ -656,7 +624,6 @@ function selectMainSector(e) {
 }
 
 function tellerActivate() {
-    //
     let tellerElement = document.getElementById("teller" + selectedTeller.number);
     let tellerType = document.getElementById("tellerType" + selectedTeller.number);
     let tellerImage;
@@ -672,7 +639,7 @@ function tellerActivate() {
         if (!tellerImage.className.includes("pro")) {
             tellerImage.className += " pro";
         }
-        updateBudget(-150);
+        updateBudget(-200);
     } else {
         tellerImage.className = tellerImage.className.replace(" pro", "");
         updateBudget(-100);
@@ -685,12 +652,15 @@ function tellerActivate() {
 }
 
 function tellerDeactivate() {
-    //
     let tellerElement = document.getElementById("teller" + selectedTeller.number);
     let tellerType = document.getElementById("tellerType" + selectedTeller.number);
     let tellerImage;
     selectedTeller.active = false;
-    matchCurrentBudget += 50;
+    if (selectedTeller.pro) {
+        matchCurrentBudget += 30;
+    } else {
+        matchCurrentBudget += 50;
+    }
 
     for (let child of tellerElement.children) {
         if (child.className.includes("tellerImage")) {
@@ -711,10 +681,6 @@ function tellerChangeType() {
     let tellerTypeSelected = document.getElementById("tellerTypeSelected");
 
     switch (tellerSelectType.value) {
-        // case "internal":
-        //     selectedTeller.type = Type.internal;
-        //     tellerTypeSelected.innerHTML = Type.internal.toString();
-        //     break;
         case "express":
             selectedTeller.type = Type.express;
             tellerTypeSelected.innerHTML = Type.express.toString();
@@ -789,9 +755,6 @@ function tellerSelect(e) {
         tellerSelectedPro.disabled = true;
 
         switch (selectedTeller.type) {
-            // case Type.internal:
-            //     tellerSelectedType.value = "internal";
-            //     break;
             case Type.priority:
                 tellerSelectedType.value = "priority";
                 break;
@@ -829,6 +792,26 @@ function tellerSelect(e) {
         tellerEnable.disabled = true;
     } else {
         tellerEnable.disabled = false;
+    }
+
+    if (time < 900 || selectedTeller.customer) {
+        tellerDisable.disabled = true;
+        if (!tellerDisable.className.includes(" disabledButton")) {
+            tellerDisable.className += " disabledButton";
+        }
+    } else {
+        tellerDisable.disabled = false;
+        tellerDisable.className = tellerDisable.className.replace(" disabledButton", "");
+    }
+
+    if (!match) {
+        tellerEnable.disabled = true;
+        if (!tellerEnable.className.includes(" disabledButton")) {
+            tellerEnable.className += " disabledButton";
+        }
+    } else {
+        tellerEnable.disabled = false;
+        tellerEnable.className = tellerEnable.className.replace(" disabledButton", "");
     }
 
     if (selectedTeller.active) {
@@ -870,8 +853,9 @@ function receptionServe() {
 
 function receptionAccept() {
     let nextCustomer = lineReception[0];
-    let customerType = document.getElementById("customerType");
-    switch (customerType.value) {
+    let customerOriginaltype = nextCustomer.type
+    let customerNewType = document.getElementById("customerType");
+    switch (customerNewType.value) {
         case "express":
             nextCustomer.type = Type.express;
             break;
@@ -882,6 +866,9 @@ function receptionAccept() {
             nextCustomer.type = Type.standard;
             break;
     }
+    if (nextCustomer.type != customerOriginaltype) {
+        nextCustomer.complaint = customerComplaint(nextCustomer.rage);
+    }
     customerServingTime = -1;
     customerEntrance(nextCustomer);
 }
@@ -889,7 +876,7 @@ function receptionAccept() {
 function receptionRefuse() {
     let nextCustomer = lineReception.shift();
     if (!nextCustomer.complaint) {
-        nextCustomer.rage * 2;
+        nextCustomer.rage = Math.floor(Math.random() * 10);
         nextCustomer.complaint = customerComplaint(nextCustomer.rage);
     }
     if (nextCustomer.complaint) {
@@ -912,14 +899,7 @@ function customerAbandon() {
             continue;
         }
         if (time - lineReception[i].startTime > lineReception[i].abandonTime) {
-            abandoningCustomer = lineReception[i];
-            if (!abandoningCustomer.complaint) {
-                abandoningCustomer.rage * 2;
-                abandoningCustomer.complaint = customerComplaint(abandoningCustomer.rage);
-            }
-            if (abandoningCustomer.complaint) {
-                matchComplaints++;
-            }
+            matchComplaints++;
             lineReception.splice(i, 1);
             return;
         }
@@ -928,7 +908,7 @@ function customerAbandon() {
         if (time - lineStandard[i].startTime > lineStandard[i].abandonTime) {
             abandoningCustomer = lineStandard[i];
             if (!abandoningCustomer.complaint) {
-                abandoningCustomer.rage = Math.floor(Math.random() * 10);
+                abandoningCustomer.rage *= 2;
                 abandoningCustomer.complaint = customerComplaint(abandoningCustomer.rage);
             }
             if (abandoningCustomer.complaint) {
@@ -942,7 +922,7 @@ function customerAbandon() {
         if (time - linePriority[i].startTime > linePriority[i].abandonTime) {
             abandoningCustomer = linePriority[i];
             if (!abandoningCustomer.complaint) {
-                abandoningCustomer.rage = Math.floor(Math.random() * 10);
+                abandoningCustomer.rage *= 2;
                 abandoningCustomer.complaint = customerComplaint(abandoningCustomer.rage);
             }
             if (abandoningCustomer.complaint) {
@@ -956,7 +936,7 @@ function customerAbandon() {
         if (time - lineExpress[i].startTime > lineExpress[i].abandonTime) {
             abandoningCustomer = lineExpress[i];
             if (!abandoningCustomer.complaint) {
-                abandoningCustomer.rage = Math.floor(Math.random() * 10);
+                abandoningCustomer.rage *= 2;
                 abandoningCustomer.complaint = customerComplaint(abandoningCustomer.rage);
             }
             if (abandoningCustomer.complaint) {
@@ -969,11 +949,12 @@ function customerAbandon() {
 }
 
 function updateStatistics() {
-    document.getElementById("statisticsRecordCalls").innerHTML = recordCalls;
-    document.getElementById("statisticsRecordDocuments").innerHTML = recordDocuments;
-    document.getElementById("statisticsRecordScoreEasy").innerHTML = recordScoreEasy;
-    document.getElementById("statisticsRecordScoreNormal").innerHTML = recordScoreNormal;
-    document.getElementById("statisticsRecordScoreHard").innerHTML = recordScoreHard;
+    document.getElementById("statisticsRecordCalls").innerHTML = Game.recordCalls;
+    document.getElementById("statisticsRecordDocuments").innerHTML = Game.recordDocuments;
+    document.getElementById("statisticsRecordScoreEasy").innerHTML = Game.recordScoreEasy;
+    document.getElementById("statisticsRecordScoreNormal").innerHTML = Game.recordScoreNormal;
+    document.getElementById("statisticsRecordScoreHard").innerHTML = Game.recordScoreHard;
+    document.getElementById("statisticsTotalMatches").innerHTML = Game.totalMatches;
 
     document.getElementById("statisticsMatchCalls").innerHTML = matchCalls;
     document.getElementById("statisticsMatchCallsOntime").innerHTML = matchCallsOntime;
@@ -984,29 +965,26 @@ function updateStatistics() {
 
     let headerInfoGame = document.getElementById("headerInfoGame");
     headerInfoGame.innerHTML = matchScore;
-    if (matchScore <= 0){
-        if (!headerInfoGame.className.includes(" critical")){
+    if (matchScore < 0) {
+        if (!headerInfoGame.className.includes(" critical")) {
             headerInfoGame.className += " critical";
         }
-    }else{
+    } else {
         headerInfoGame.className = headerInfoGame.className.replace(" critical", "");
     }
 }
 
 function updateBudget(amount) {
-    // matchCurrentBudget = matchStartBudget
-    //     - matchComplaints * 100
-    //     - matchCallsOvertime * 50;
     matchCurrentBudget += amount;
 }
 
 function calculateScore() {
     matchScore
-        = matchDocuments
-        + matchCurrentBudget * Math.floor(matchCurrentBudget / matchStartBudget + 1)
-        + matchCallsOntime * 10 * Math.floor(matchCallsOntime / matchCalls + 1)
-        - Math.floor((matchComplaints * 10 * matchStartBudget) / matchCalls);
-    if (Number.isNaN(matchScore)) {
+        = Math.floor(matchDocuments
+            * (matchCurrentBudget / matchStartBudget) * 5
+            + matchCallsOntime * 100 * ((matchCallsOntime / matchCalls) + 1)
+            - matchComplaints * (matchStartBudget - matchCurrentBudget));
+    if (Number.isNaN(matchScore) || matchCurrentBudget <= 0) {
         matchScore = 0;
     }
 }
@@ -1027,14 +1005,67 @@ function modalStopConfirm() {
     difficultySelector.disabled = false;
 }
 
-// SOME REFERENCE ABOUT STORING DATA INTO SESSIONSTORAGE (OR LOCALSTORAGE):
+function endGame() {
+    let teller;
+    for (let i = 1; i <= tellers.size; i++) {
+        teller = tellers.get(i.toString());
+        if (teller.customer) {
+            matchComplaints++;
+            matchDocuments -= (teller.customer.documents - teller.documentsProcessed);
+        }
+    }
+    calculateScore();
 
-// let testObject = { 'one': 1, 'two': 2, 'three': 3 };
+    Game.totalMatches++;
+    if (matchCalls > Game.recordCalls) {
+        Game.recordCalls = matchCalls;
+    }
+    if (matchDocuments > Game.recordDocuments) {
+        Game.recordDocuments = matchDocuments;
+    }
+    switch (difficulty) {
+        case Difficulty.easy:
+            if (matchScore > Game.recordScoreEasy) {
+                Game.recordScoreEasy = matchScore;
+            }
+            break;
+        case Difficulty.hard:
+            if (matchScore > Game.recordScoreHard) {
+                Game.recordScoreHard = matchScore;
+            }
+            break;
+        default:
+            if (matchScore > Game.recordScoreNormal) {
+                Game.recordScoreNormal = matchScore;
+            }
+            break;
+    }
+    saveGame();
+    updateStatistics();
+}
 
-// // Put the object into storage
-// sessionStorage.setItem('testObject', JSON.stringify(testObject));
+function saveGame() {
+    let saveGame = Game;
+    localStorage.setItem('saveGame', JSON.stringify(saveGame));
+}
 
-// // Retrieve the object from storage
-// let retrievedObject = sessionStorage.getItem('testObject');
-
-// console.log('retrievedObject: ', JSON.parse(retrievedObject));
+function loadGame() {
+    let loadGame = localStorage.getItem('saveGame');
+    let loadedGame;
+    if (loadGame) {
+        loadedGame = JSON.parse(loadGame);
+        Game.totalMatches = loadedGame.totalMatches;
+        Game.recordCalls = loadedGame.recordCalls;
+        Game.recordDocuments = loadedGame.recordDocuments;
+        Game.recordScoreEasy = loadedGame.recordScoreEasy;
+        Game.recordScoreHard = loadedGame.recordScoreHard;
+        Game.recordScoreNormal = loadedGame.recordScoreNormal;
+    } else {
+        Game.totalMatches = 0;
+        Game.recordCalls = 0;
+        Game.recordDocuments = 0;
+        Game.recordScoreEasy = 0;
+        Game.recordScoreHard = 0;
+        Game.recordScoreNormal = 0;
+    }
+}

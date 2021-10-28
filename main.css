@@ -10,11 +10,9 @@ html, body{
     height: 100%;
     width: 100%;
     flex-direction: column;
-    background-color: black;
 }
 
 header{
-    /* background-color: cornflowerblue; */
     background-color: deepskyblue;
 
     height: 10%;
@@ -50,16 +48,20 @@ button{
 
 .headerText{
     font-size: larger;
-    /* color: white;
-    text-shadow: 1px 1px 4px black; */
 }
 
 .critical{
     color: crimson;
 }
 
-.infoText{
+.infoText, .rulesText{
     color: midnightblue;
+    font-weight: normal;
+    text-align: center;
+}
+
+.rulesText{
+    width: 90%;
 }
 
 .infoTextTitle{
@@ -72,6 +74,7 @@ button{
     background-color: white;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 1px grey;
+    font-weight: bold;
 }
 
 #content{
@@ -86,10 +89,10 @@ button{
 
 #start{
     flex-direction: column;
+
 }
 
 .subFooter{
-    background-color: darkgrey;
     justify-content: space-around;
 }
 
@@ -97,6 +100,8 @@ button{
     background-color: white;
     border: 1px solid lightgrey;
     flex: 1;
+    border-radius: 0.5rem;
+    box-shadow: 2px 2px 5px lightgrey;
 }
 
 .tabFooter:hover{
@@ -104,7 +109,7 @@ button{
 }
 
 .tabFooter.tabActive{
-    background-color: grey;
+    background-color: lightsteelblue;
 }
 
 .actionButton{
@@ -123,17 +128,23 @@ button{
     background-color: lightgrey;
 }
 
+.actionButton.disabledButton{
+    background-color: grey;
+    opacity: 0.5;
+}
+
 .actionButton:active{
     transform: translate(1px, 1px);
     box-shadow: 1px 1px 5px black;
 }
 
-#buttonServe{
-    height: 12%;
+#buttonStart, #buttonStop{
+    height: 20%;
 }
 
-#buttonStart, #buttonStop{
-    height: 7%;
+#buttonServe{
+    height: 12%;
+    margin-bottom: 1vh;
 }
 
 .subSector{
@@ -145,21 +156,65 @@ button{
 }
 
 .statisticsInfo{
-    /* background-color: aliceblue; */
     width: 99%;
     height: 49%;
-    flex-direction: column;
-    justify-content: space-evenly;
+    display: grid;
     align-items: center;
-    box-shadow: 1px 1px 3px grey;
+    grid-template-columns: 60% 40%;
+    box-shadow: 2px 2px 5px lightgrey;
     border-radius: 0.5rem;
-    margin-bottom: 0.5%;
-    margin-top: 0.5%;
-    /* padding: 1%; */
+    margin-bottom: 1%;
 }
+
+.gridTitle{
+    margin-left: 1%;
+    margin-right: 1%;
+    width: auto;
+    height: 80%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.gridItemLeft{
+    text-align: right;
+    padding-right: 5%;
+}
+
+.gridItemRight{
+    text-align: left;
+    padding-left: 5%;
+}
+
 
 .tellerInfo{
     font-size: larger;
+}
+
+#menu{
+    width: 99%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.menuInfo{
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 2px 2px 5px lightgrey;
+    border-radius: 0.5rem;
+    border: solid thin lightgray;
+}
+
+#rulesSector{
+    height: 70%;
+    width: 100%;
+    padding-bottom: 3%;
+}
+
+#startSector{
+    height: 30%;
+    width: 100%;
+    justify-content: space-evenly;
 }
 
 #tellers{
@@ -217,7 +272,6 @@ button{
     background-color: limegreen;
     height: 100%;
     width: 0%;
-    /* transition: width 1s linear; */
 }
 .progressBar.alert{
     background-color: khaki;
@@ -237,18 +291,6 @@ button{
 
 .tellerImage.pro{
     filter: invert(50%) sepia(50%) saturate(500%) hue-rotate(310deg) brightness(100%) contrast(100%);
-}
-
-@media (min-aspect-ratio: 9/10){
-    .tellerImage{
-        height: 80%;
-    }
-}
-
-@media (max-aspect-ratio: 9/10){
-    .tellerImage{
-        height: 50%;
-    }
 }
 
 .tellerHeader{
@@ -325,22 +367,22 @@ select{
     height: 49%;
     border-radius: 0.5rem;
     align-items: center;
-    box-shadow: 1px 1px 3px grey;
+    box-shadow: 2px 2px 5px lightgrey;
     justify-content: space-between;
     flex-direction: column;
-    padding-top: 1%;
-    padding-bottom: 3%;
-    background-color: ye;
+    padding-top: 1vh;
+    padding-bottom: 3vh;
 }
 
 #receptionCustomerInfo{
-    height: 60%;
+    height: 50%;
 }
 
 #actionButtonCustomerContainer{
     justify-content: space-between;
     width: 80%;
     height: 15%;
+    margin-bottom: 1vh;
 }
 
 .modalContainer{
@@ -379,4 +421,54 @@ select{
 
 .modalButton{
     height: 100%;
+}
+
+#tellerTypeSelected, #tellerNumberSelected{
+    font-size: x-large;
+}
+
+@media (min-aspect-ratio: 9/10){
+    .tellerImage{
+        height: 80%;
+    }
+
+    .statisticsInfo{
+        height: 99%;
+    }
+
+    #statistics{
+        flex-direction: row;
+        width: 99%;
+    }
+
+    select, .actionButton{
+        width: 20%;
+    }
+
+    .tellerContent{
+        justify-content: space-around;
+    }
+    #tellerContentWrapper{
+        align-items: center;
+    }
+    #start{
+        align-items: center;
+    }
+    #actionButtonCustomerContainer{
+        justify-content: space-evenly;
+    }
+}
+
+@media (max-aspect-ratio: 9/10){
+    .tellerImage{
+        height: 50%;
+    }
+
+    #statistics{
+        flex-direction: column;
+    }
+
+    .rulesText{
+        font-size: 2vh;
+    }
 }

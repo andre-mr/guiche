@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <!-- vs code default template -->
     <meta charset='utf-8'>
@@ -28,11 +29,11 @@
     <header>
         <div class="headerInfo">
             <p class="headerText">PONTOS</p>
-            <p class="headerText" id="headerInfoGame">0</p>
+            <p class="headerText" id="headerInfoGame">-</p>
         </div>
         <div class="headerInfo">
             <p class="headerText">HORA</p>
-            <p class="headerText" id="headerInfoTime">09:50</p>
+            <p class="headerText" id="headerInfoTime">--:--</p>
         </div>
     </header>
 
@@ -41,82 +42,62 @@
         <div class="mainSector" id="start">
 
             <div class="subSector" id="menu">
-                <p class="headerText">GUICHÊ DE CAIXA</p>
-                <select id="difficultySelector">
-                    <option value="easy">Fácil</option>
-                    <option value="normal">Normal</option>
-                    <option value="hard">Difícil</option>
-                </select>
-                <button class="actionButton positiveButton" id="buttonStart">
-                    <p>INICIAR</p>
-                </button>
-                <button class="actionButton negativeButton" id="buttonStop">
-                    <p>ENCERRAR</p>
-                </button>
+                <div class="menuInfo" id="rulesSector">
+                    <p class="infoTextTitle headerText">GUICHÊ DE CAIXA</p>
+                    <p class="rulesText">O objetivo é atender os clientes dentro do prazo de espera, procurando utilizar
+                        o mínimo orçamento possível.</p>
+                    <p class="rulesText">Os clientes chegam entre 10h e 15h e o expediente encerra às 16h.</p>
+                    <p class="rulesText">Documentos processados e clientes atendidos no prazo pontuam.</p>
+                    <p class="rulesText">Reclamações, disparadas quando clientes esperam demais, abandonam a espera ou
+                        são recusados, penalizam.</p>
+                    <p class="rulesText">Ativações de guichês debitam o orçamento, e reativações ao final do
+                        expediente creditam parcialmente.</p>
+                </div>
+                <div class="menuInfo" id="startSector">
+                    <select id="difficultySelector">
+                        <option value="easy">Fácil</option>
+                        <option value="normal">Normal</option>
+                        <option value="hard">Difícil</option>
+                    </select>
+                    <button class="actionButton positiveButton" id="buttonStart">
+                        <p>INICIAR</p>
+                    </button>
+                    <button class="actionButton negativeButton" id="buttonStop">
+                        <p>ENCERRAR</p>
+                    </button>
+                </div>
             </div>
 
             <div class="subSector" id="statistics">
                 <div class="statisticsInfo">
-                    <p class="infoText infoTextTitle">RECORDES</p>
-                    <div>
-                        <p class="infoText">Atendimentos:&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordCalls"></p>
-                    </div>
-                    <!-- <div>
-                        <p class="infoText">No Prazo:&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordCallsOntime"></p>
-                    </div> -->
-                    <!-- <div>
-                        <p class="infoText">Fora do Prazo:&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordCallsOvertime"></p>
-                    </div> -->
-                    <div>
-                        <p class="infoText">Documentos:&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordDocuments"></p>
-                    </div>
-                    <!-- <div>
-                        <p class="infoText">Reclamações:&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordComplaints"></p>
-                    </div> -->
-                    <div>
-                        <p class="infoText">Pontos (Fácil):&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordScoreEasy"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Pontos (Normal):&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordScoreNormal"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Pontos (Difícil):&nbsp;</p>
-                        <p class="infoText" id="statisticsRecordScoreHard"></p>
-                    </div>
+                    <p class="infoTextTitle gridTitle">RECORDES</p>
+                    <p class="infoText gridItemLeft">Partidas:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsTotalMatches"></p>
+                    <p class="infoText gridItemLeft">Atendimentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordCalls"></p>
+                    <p class="infoText gridItemLeft">Documentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordDocuments"></p>
+                    <p class="infoText gridItemLeft">Pontos (Fácil):&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordScoreEasy"></p>
+                    <p class="infoText gridItemLeft">Pontos (Normal):&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordScoreNormal"></p>
+                    <p class="infoText gridItemLeft">Pontos (Difícil):&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordScoreHard"></p>
                 </div>
                 <div class="statisticsInfo">
-                    <p class="infoText infoTextTitle">PARTIDA ATUAL</p>
-                    <div>
-                        <p class="infoText">Atendimentos:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchCalls"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">No Prazo:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchCallsOntime"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Fora do Prazo:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchCallsOvertime"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Documentos:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchDocuments"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Reclamações:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchComplaints"></p>
-                    </div>
-                    <div>
-                        <p class="infoText">Orçamento:&nbsp;</p>
-                        <p class="infoText" id="statisticsMatchCurrentBudget"></p>
-                    </div>
+                    <p class="infoTextTitle gridTitle">PARTIDA ATUAL</p>
+                    <p class="infoText gridItemLeft">Atendimentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchCalls"></p>
+                    <p class="infoText gridItemLeft">No Prazo:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchCallsOntime"></p>
+                    <p class="infoText gridItemLeft">Fora do Prazo:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchCallsOvertime"></p>
+                    <p class="infoText gridItemLeft">Reclamações:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchComplaints"></p>
+                    <p class="infoText gridItemLeft">Documentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchDocuments"></p>
+                    <p class="infoText gridItemLeft">Orçamento:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchCurrentBudget"></p>
                 </div>
             </div>
 
@@ -263,14 +244,13 @@
                                 <option value="standard">Convencional</option>
                                 <option value="priority">Preferencial</option>
                                 <option value="express">Expresso</option>
-                                <!-- <option value="internal">Interno</option> -->
                             </select>
                         </div>
-                        
+
                         <div class="tellerContent">
-                            <div class="actionButton" id="tellerBack">
+                            <button class="actionButton" id="tellerBack">
                                 <p>VOLTAR</p>
-                            </div>
+                            </button>
                             <button class="actionButton positiveButton" id="tellerEnable">
                                 <p>ATIVAR</p>
                             </button>
@@ -291,7 +271,7 @@
 
         <div class="mainSector" id="lines">
             <div id="waiting">
-                <p class="headerText">ESPERA</p>
+                <p class="headerText infoTextTitle">ESPERA</p>
                 <div class="lineInfoContainer">
                     <p class="lineInfo">Convencional</p>
                     <div class="progress progressLine">
@@ -299,12 +279,12 @@
                     </div>
                     <div class="lineCounters">
                         <div>
-                            <p class="lineInfo">Clientes:&nbsp;</p>
-                            <p class="lineInfo" id="customerCountStandard">0</p>
+                            <p class="lineInfo infoText">Clientes:&nbsp;</p>
+                            <p class="lineInfo infoText" id="customerCountStandard">0</p>
                         </div>
                         <div>
-                            <p class="lineInfo">Minutos:&nbsp;</p>
-                            <p class="lineInfo" id="timeCountStandard">0</p>
+                            <p class="lineInfo infoText">Minutos:&nbsp;</p>
+                            <p class="lineInfo infoText" id="timeCountStandard">0</p>
                         </div>
                     </div>
                 </div>
@@ -315,12 +295,12 @@
                     </div>
                     <div class="lineCounters">
                         <div>
-                            <p class="lineInfo">Clientes:&nbsp;</p>
-                            <p class="lineInfo" id="customerCountPriority">0</p>
+                            <p class="lineInfo infoText">Clientes:&nbsp;</p>
+                            <p class="lineInfo infoText" id="customerCountPriority">0</p>
                         </div>
                         <div>
-                            <p class="lineInfo">Minutos:&nbsp;</p>
-                            <p class="lineInfo" id="timeCountPriority">0</p>
+                            <p class="lineInfo infoText">Minutos:&nbsp;</p>
+                            <p class="lineInfo infoText" id="timeCountPriority">0</p>
                         </div>
                     </div>
                 </div>
@@ -331,18 +311,18 @@
                     </div>
                     <div class="lineCounters">
                         <div>
-                            <p class="lineInfo">Clientes:&nbsp;</p>
-                            <p class="lineInfo" id="customerCountExpress">0</p>
+                            <p class="lineInfo infoText">Clientes:&nbsp;</p>
+                            <p class="lineInfo infoText" id="customerCountExpress">0</p>
                         </div>
                         <div>
-                            <p class="lineInfo">Minutos:&nbsp;</p>
-                            <p class="lineInfo" id="timeCountExpress">0</p>
+                            <p class="lineInfo infoText">Minutos:&nbsp;</p>
+                            <p class="lineInfo infoText" id="timeCountExpress">0</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="reception" id="receptionLine">
-                <p class="headerText">RECEPÇÃO</p>
+                <p class="headerText infoTextTitle">RECEPÇÃO</p>
                 <div class="lineInfoContainer">
                     <p class="lineInfo">Entrada</p>
                     <div class="progress progressLine">
@@ -350,12 +330,12 @@
                     </div>
                     <div class="lineCounters">
                         <div>
-                            <p class="lineInfo">Clientes:&nbsp;</p>
-                            <p class="lineInfo" id="customerCountReception">0</p>
+                            <p class="lineInfo infoText">Clientes:&nbsp;</p>
+                            <p class="lineInfo infoText" id="customerCountReception">0</p>
                         </div>
                         <div>
-                            <p class="lineInfo">Minutos:&nbsp;</p>
-                            <p class="lineInfo" id="timeCountReception">0</p>
+                            <p class="lineInfo infoText">Minutos:&nbsp;</p>
+                            <p class="lineInfo infoText" id="timeCountReception">0</p>
                         </div>
                     </div>
                 </div>
@@ -364,11 +344,11 @@
                 </button>
             </div>
             <div class="reception" id="receptionCustomer">
-                <p>CLIENTE</p>
+                <p class="headerText infoTextTitle">CLIENTE</p>
                 <div class="lineInfoContainer" id="receptionCustomerInfo">
                     <div>
-                        <p class="lineInfo">Documentos:&nbsp;</p>
-                        <p class="lineInfo" id="lineInfoDocuments">10</p>
+                        <p class="lineInfo infoText">Documentos:&nbsp;</p>
+                        <p class="lineInfo infoText" id="lineInfoDocuments">10</p>
                     </div>
                     <p class="lineInfo" id="servingCustomerTime">10</p>
                     <select id="customerType">
@@ -403,4 +383,5 @@
 
     <script src='main.js'></script>
 </body>
+
 </html>
