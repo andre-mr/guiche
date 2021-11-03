@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,65 +6,65 @@
     font-weight: bold;
 }
 
-html, body{
+html, body {
     height: 100%;
     width: 100%;
     flex-direction: column;
 }
 
-header{
+header {
     background-color: deepskyblue;
-
     height: 10%;
     display: flex;
+    border-radius: 0.5rem;
 }
 
-div{
+div {
     display: flex;
 }
 
-footer{
+footer {
     height: 10%;
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
-p{
+p {
     color: black;
     text-shadow: 1px 1px 5px grey;
 }
 
-button{
+button {
     cursor: pointer;
 }
 
-.headerInfo{
+.headerInfo {
     width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.headerText{
+.headerText {
     font-size: larger;
 }
 
-.critical{
+.critical {
     color: crimson;
 }
 
-.infoText, .rulesText{
+.infoText, .rulesText {
     color: midnightblue;
     font-weight: normal;
     text-align: center;
 }
 
-.rulesText{
+.rulesText {
     width: 90%;
 }
 
-.infoTextTitle{
+.infoTextTitle {
     color: black;
     width: 99%;
     height: 15%;
@@ -77,26 +77,25 @@ button{
     font-weight: bold;
 }
 
-#content{
+#content {
     background-color: aliceblue;
     height: 80%;
     width: 100%;
 }
 
-.mainSector{
+.mainSector {
     width: 100%;
 }
 
-#start{
+#start {
     flex-direction: column;
-
 }
 
-.subFooter{
+.subFooter {
     justify-content: space-around;
 }
 
-.tabFooter{
+.tabFooter {
     background-color: white;
     border: 1px solid lightgrey;
     flex: 1;
@@ -104,15 +103,15 @@ button{
     box-shadow: 2px 2px 5px lightgrey;
 }
 
-.tabFooter:hover{
+.tabFooter:hover {
     background-color: lightgrey;
 }
 
-.tabFooter.tabActive{
+.tabFooter.tabActive {
     background-color: lightsteelblue;
 }
 
-.actionButton{
+.actionButton {
     background-color: white;
     outline: none;
     border: none;
@@ -124,30 +123,30 @@ button{
     align-items: center;
 }
 
-.actionButton:hover{
+.actionButton:hover {
     background-color: lightgrey;
 }
 
-.actionButton.disabledButton{
+.actionButton.disabledButton {
     background-color: grey;
     opacity: 0.5;
 }
 
-.actionButton:active{
+.actionButton:active {
     transform: translate(1px, 1px);
     box-shadow: 1px 1px 5px black;
 }
 
-#buttonStart, #buttonStop{
+#buttonStart, #buttonStop {
     height: 20%;
 }
 
-#buttonServe{
+#buttonServe {
     height: 12%;
     margin-bottom: 1vh;
 }
 
-.subSector{
+.subSector {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -155,18 +154,17 @@ button{
     align-items: center;
 }
 
-.statisticsInfo{
-    width: 99%;
-    height: 49%;
+.statisticsInfo {
+    width: 100%;
+    height: 100%;
     display: grid;
     align-items: center;
     grid-template-columns: 60% 40%;
     box-shadow: 2px 2px 5px lightgrey;
     border-radius: 0.5rem;
-    margin-bottom: 1%;
 }
 
-.gridTitle{
+.gridTitle {
     margin-left: 1%;
     margin-right: 1%;
     width: auto;
@@ -175,28 +173,27 @@ button{
     grid-column-end: 3;
 }
 
-.gridItemLeft{
+.gridItemLeft {
     text-align: right;
     padding-right: 5%;
 }
 
-.gridItemRight{
+.gridItemRight {
     text-align: left;
     padding-left: 5%;
 }
 
-
-.tellerInfo{
+.tellerInfo {
     font-size: larger;
 }
 
-#menu{
+#menu {
     width: 99%;
     flex-direction: column;
     justify-content: space-between;
 }
 
-.menuInfo{
+.menuInfo {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
@@ -205,61 +202,61 @@ button{
     border: solid thin lightgray;
 }
 
-#rulesSector{
+#rulesSector {
     height: 70%;
     width: 100%;
     padding-bottom: 3%;
 }
 
-#startSector{
+#startSector {
     height: 30%;
     width: 100%;
     justify-content: space-evenly;
 }
 
-#tellers{
+#tellers {
     align-items: center;
 }
 
-#tellerList{
+#tellerList {
     width: 100%;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-.teller{
+.teller {
     background-color: inherit;
     position: relative;
     width: 30%;
     height: 30%;
     border-radius: 0.5rem;
     box-shadow: 1px 1px 5px grey;
-
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
-.teller.tellerEnabled{
+
+.teller.tellerEnabled {
     background-color: lightcyan;
 }
 
-.tellerFooter{
+.tellerFooter {
     width: 90%;
     height: 15%;
     align-items: center;
 }
 
-#tellerSelectedContainer{
+#tellerSelectedContainer {
     width: 100%;
 }
 
-#tellerSelected{
+#tellerSelected {
     width: 90%;
     height: 90%;
     justify-content: space-between;
 }
 
-.progress{
+.progress {
     border-radius: 0.5rem;
     width: 100%;
     height: 25%;
@@ -267,20 +264,27 @@ button{
     z-index: 1;
 }
 
-.progressBar{
+#progressSelected {
+    height: 5%;
+    width: 90%;
+}
+
+.progressBar {
     border-radius: 0.5rem;
     background-color: limegreen;
     height: 100%;
     width: 0%;
 }
-.progressBar.alert{
+
+.progressBar.alert {
     background-color: khaki;
 }
-.progressBar.over{
+
+.progressBar.over {
     background-color: orangered;
 }
 
-.tellerImage{
+.tellerImage {
     opacity: 0.2;
     width: auto;
     position: absolute;
@@ -289,54 +293,105 @@ button{
     filter: none;
 }
 
-.tellerImage.pro{
+.tellerImage.pro {
     filter: invert(50%) sepia(50%) saturate(500%) hue-rotate(310deg) brightness(100%) contrast(100%);
 }
 
-.tellerHeader{
+.tellerHeader {
     width: 80%;
-    height: 20%;
+    height: 15%;
     justify-content: space-between;
     align-items: center;
 }
 
-#tellerInfoSelected{
+#tellerInfoSelected {
     flex-direction: column;
     justify-content: unset;
 }
 
-select{
-    z-index: 1;
-    width: 40%;
-    border-radius: 0.5rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: bold;
-    opacity: 0.8;
-    text-align: center;
+.inputRow {
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 20%;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-#tellerContentWrapper{
+.difficultyLabel, .typeLabel {
+    display: inline-flex;
+    width: 30vh;
+    background-color: white;
+    opacity: 0.7;
+    padding: 0.5rem;
+    margin: 1%;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+
+.typeLabel {
+    width: 90%;
+    margin: 0.5%;
+    font-size: smaller;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.difficultyLabel:hover, .typeLabel:hover {
+    outline: 2px solid lightgrey;
+}
+
+input {
+    vertical-align: middle;
+    height: 100%;
+    width: 30%;
+}
+
+span {
+    font-size: larger;
+}
+
+#tellerContentWrapper {
     width: 100%;
-    height: 65%;
+    height: 100%;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
+    z-index: 1;
 }
 
-.tellerContent{
+.tellerContent {
     width: 100%;
-    height: 10%;
+    height: 50%;
     justify-content: space-around;
+    align-items: flex-end;
 }
 
-.positiveButton{
+#selectedTellerTypeRadios, #receptionCustomerTypeRadios {
+    width: 45%;
+    height: 50%;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+#selectedTellerProRadio {
+    width: 45%;
+    height: 90%;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.positiveButton {
     background-color: limegreen;
 }
 
-.negativeButton{
+.negativeButton {
     background-color: orangered;
 }
 
-.lineInfoContainer{
+.lineInfoContainer {
     width: 95%;
     height: 25%;
     border-radius: 0.5rem;
@@ -347,45 +402,41 @@ select{
     border: 1px solid lightgrey;
 }
 
-.progressLine{
+.progressLine {
     width: 90%;
 }
 
-.lineCounters{
+.lineCounters {
     width: 90%;
     justify-content: space-between;
 }
 
-#lines{
+#lines {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
 
-#waiting, .reception{
-    width: 99%;
-    height: 49%;
+#waiting, #receptionLine, #receptionCustomer {
+    width: 100%;
+    height: 100%;
     border-radius: 0.5rem;
     align-items: center;
     box-shadow: 2px 2px 5px lightgrey;
     justify-content: space-between;
     flex-direction: column;
-    padding-top: 1vh;
+    padding-top: 0.5vh;
     padding-bottom: 3vh;
 }
 
-#receptionCustomerInfo{
-    height: 50%;
-}
-
-#actionButtonCustomerContainer{
+#actionButtonCustomerContainer {
     justify-content: space-between;
     width: 80%;
-    height: 15%;
+    height: 10%;
     margin-bottom: 1vh;
 }
 
-.modalContainer{
+.modalContainer {
     z-index: 2;
     position: absolute;
     top: 0;
@@ -400,7 +451,7 @@ select{
     background: transparent;
 }
 
-.modal{
+.modal {
     width: 90%;
     height: 50%;
     display: flex;
@@ -412,63 +463,154 @@ select{
     box-shadow: 2px 2px 2px lightgrey;
 }
 
-.modalButtonContainer{
+.modalButtonContainer {
     width: 90%;
     height: 10%;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.modalButton{
+.modalButton {
     height: 100%;
 }
 
-#tellerTypeSelected, #tellerNumberSelected{
+#tellerTypeSelected, #tellerNumberSelected {
     font-size: x-large;
 }
 
-@media (min-aspect-ratio: 9/10){
-    .tellerImage{
+@media (min-aspect-ratio: 9/10) {
+    * {
+        font-size: small;
+    }
+    .headerInfo {
+        flex-direction: row;
+        justify-content: space-evenly;
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+    #lines {
+        flex-direction: row;
+    }
+    #waiting, #receptionLine, #receptionCustomer {
+        height: 96%;
+        padding-top: 0.5vh;
+    }
+    .tellerImage {
         height: 80%;
     }
-
-    .statisticsInfo{
-        height: 99%;
-    }
-
-    #statistics{
+    #statistics {
         flex-direction: row;
         width: 99%;
     }
-
-    select, .actionButton{
+    .actionButton {
         width: 20%;
+        font-size: medium;
     }
-
-    .tellerContent{
-        justify-content: space-around;
+    .rulesText, .lineInfo {
+        font-size: 2.8vmin;
     }
-    #tellerContentWrapper{
+    .headerText {
+        font-size: 3vh;
+    }
+    .infoText {
+        font-size: 3vh;
+    }
+    .infoTextTitle {
+        font-size: 3vh;
+    }
+    #buttonStart, #buttonStop {
+        height: 25%;
+        margin-bottom: -1%;
+    }
+    #buttonCustomerAccept, #buttonCustomerRefuse {
+        height: 70%;
+        width: 40%;
+    }
+    #customerType {
+        width: 50%;
+    }
+    #actionButtonCustomerContainer {
+        margin-bottom: 6vh;
+    }
+    #buttonServe {
+        width: 30%;
+        height: 6%;
+        margin-bottom: 10vh;
+    }
+    #start {
         align-items: center;
     }
-    #start{
-        align-items: center;
-    }
-    #actionButtonCustomerContainer{
+    #actionButtonCustomerContainer {
         justify-content: space-evenly;
+    }
+    #receptionCustomerInfo {
+        height: 40%;
+    }
+    .difficultyLabel, .typeLabel {
+        font-size: 2vmin;
+    }
+    .inputItem {
+        width: 50%;
+        justify-content: center;
+    }
+    #servingCustomerTime {
+        font-size: 3vmin;
+    }
+    #receptionCustomerTypeRadios {
+        height: 70%;
+    }
+    .tellerFooter {
+        height: 20%;
+    }
+    .tellerContent {
+        height: 50%;
+    }
+    #tellerBack, #tellerEnable, #tellerDisable {
+        height: 80%;
     }
 }
 
-@media (max-aspect-ratio: 9/10){
-    .tellerImage{
+@media (max-aspect-ratio: 9/10) {
+    .tellerImage {
         height: 50%;
     }
-
-    #statistics{
+    #statistics {
         flex-direction: column;
     }
-
-    .rulesText{
-        font-size: 2vh;
+    .rulesText {
+        font-size: 1.5vh;
+    }
+    #receptionCustomer {
+        padding-bottom: 5%;
+    }
+    #receptionCustomerInfo {
+        height: 55%;
+    }
+    .inputRow {
+        width: 70%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5%;
+    }
+    .difficultyLabel {
+        width: 60%;
+        font-size: small;
+        padding: 1%;
+        margin: 1%;
+    }
+    .inputItem {
+        width: 100%;
+        justify-content: space-around;
+    }
+    #buttonStart, #buttonStop {
+        margin-top: 5%;
+    }
+    .typeLabel {
+        font-size: 1.5vh;
+        justify-content: flex-start;
+    }
+    #receptionCustomerTypeRadios {
+        height: 90%;
     }
 }

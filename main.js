@@ -1,9 +1,9 @@
 "use strict";
 
 const GameFrameSpeed = {
-    Slow: 1500,
-    Normal: 1000,
-    Fast: 750
+    Slow: 2000,
+    Normal: 1500,
+    Fast: 1000
 }
 
 const Game = {
@@ -139,8 +139,6 @@ function startup() {
 
     document.getElementById("modalStopConfirm").addEventListener('click', modalStopConfirm, false);
 
-    document.getElementById("difficultySelector").value = "normal";
-
     document.getElementById("buttonCustomerAccept").addEventListener('click', receptionAccept, false);
 
     document.getElementById("buttonCustomerRefuse").addEventListener('click', receptionRefuse, false);
@@ -155,9 +153,13 @@ function startup() {
 
     document.getElementById("tellerDisable").addEventListener('click', tellerDeactivate, false);
 
-    document.getElementById("tellerSelectPro").addEventListener('change', tellerChangePro, false);
+    document.getElementById("proInput").addEventListener('click', tellerChangePro, false);
 
-    document.getElementById("tellerSelectType").addEventListener('change', tellerChangeType, false);
+    document.getElementById("standardInputSelectedTeller").addEventListener('click', tellerChangeType, false);
+
+    document.getElementById("priorityInputSelectedTeller").addEventListener('click', tellerChangeType, false);
+
+    document.getElementById("expressInputSelectedTeller").addEventListener('click', tellerChangeType, false);
 
     document.getElementById("buttonStart").addEventListener('click', startStopGame, false);
 
@@ -182,31 +184,41 @@ function startup() {
 function startStopGame() {
     let buttonStart = document.getElementById("buttonStart");
     let buttonStop = document.getElementById("buttonStop");
-    let difficultySelector = document.getElementById("difficultySelector");
+    let easyInput = document.getElementById("easyInput");
+    let hardInput = document.getElementById("hardInput");
+    let normalInput = document.getElementById("normalInput");
+
+    if (easyInput.checked) {
+        difficulty = Difficulty.easy;
+    } else if (hardInput.checked) {
+        difficulty = Difficulty.hard;
+    } else {
+        difficulty = Difficulty.normal;
+    }
+
     if (match) {
         document.getElementById("modalStop").style.display = "flex";
     } else {
         buttonStart.style.display = "none";
         buttonStop.style.display = "flex";
         document.getElementById("headerInfoTime").innerHTML = "--:--";
-        switch (difficultySelector.value) {
-            case "easy":
-                difficulty = Difficulty.easy;
+        switch (difficulty) {
+            case Difficulty.easy:
                 gameSpeed = GameFrameSpeed.Slow;
                 matchStartBudget = 900;
                 break;
-            case "hard":
-                difficulty = Difficulty.hard;
+            case Difficulty.hard:
                 gameSpeed = GameFrameSpeed.Fast;
                 matchStartBudget = 700;
                 break;
             default:
-                difficulty = Difficulty.normal;
                 gameSpeed = GameFrameSpeed.Normal;
                 matchStartBudget = 800;
                 break;
         }
-        difficultySelector.disabled = true;
+        easyInput.disabled = true;
+        hardInput.disabled = true;
+        normalInput.disabled = true;
         time = 589;
         match = true;
         generationDelay = Math.floor(Math.random() * 10);
@@ -259,7 +271,9 @@ function updateGame() {
             match = false;
             document.getElementById("buttonStart").style.display = "flex";
             document.getElementById("buttonStop").style.display = "none";
-            document.getElementById("difficultySelector").disabled = false;
+            document.getElementById("easyInput").disabled = false;
+            document.getElementById("hardInput").disabled = false;
+            document.getElementById("normalInput").disabled = false;
             endGame();
         }
     }
@@ -350,39 +364,45 @@ function processDocuments() {
 
 function customerEntrance(acceptedCustomer) {
 
-    if (lineReception.length > 0) {
-        let nextCustomer = lineReception[0];
-        if (customerServingTime >= 0) {
-            document.getElementById("servingCustomerTime").innerHTML = customerServingTime;
-            customerServingTime--;
+    let nextCustomer;
+
+    if (acceptedCustomer) {
+        nextCustomer = acceptedCustomer;
+    } else if (lineReception.length > 0 && (time - lineReception[0].startTime >= 10)) {
+        nextCustomer = lineReception.shift();
+    } else if (servingCustomer && customerServingTime < 0) {
+        nextCustomer = servingCustomer;
+        servingCustomer = undefined;
+    }
+
+    if (nextCustomer) {
+        if (time - nextCustomer.startTime == maxWaitingTime) {
+            nextCustomer.complaint = customerComplaint(nextCustomer.rage);
+        }
+        if (nextCustomer.type == Type.priority) {
+            if (acceptedCustomer || linePriority.length == 0 || (time - linePriority[0].startTime < maxWaitingTime)) {
+                nextCustomer.startTime = time;
+                linePriority.push(nextCustomer);
+            }
+        } else if (nextCustomer.type == Type.express) {
+            if (acceptedCustomer || lineExpress.length == 0 || (time - lineExpress[0].startTime < maxWaitingTime)) {
+                nextCustomer.startTime = time;
+                lineExpress.push(nextCustomer);
+            }
         } else {
-            document.getElementById("receptionLine").style.display = "flex";
-            document.getElementById("receptionCustomer").style.display = "none";
-            if ((acceptedCustomer) || (time - nextCustomer.startTime >= 10)) {
-                if (time - nextCustomer.startTime == maxWaitingTime) {
-                    nextCustomer.complaint = customerComplaint(nextCustomer.rage);
-                }
-                if (nextCustomer.type == Type.priority) {
-                    if (acceptedCustomer || linePriority.length == 0 || (time - linePriority[0].startTime < maxWaitingTime)) {
-                        nextCustomer = lineReception.shift();
-                        nextCustomer.startTime = time;
-                        linePriority.push(nextCustomer);
-                    }
-                } else if (nextCustomer.type == Type.express) {
-                    if (acceptedCustomer || lineExpress.length == 0 || (time - lineExpress[0].startTime < maxWaitingTime)) {
-                        nextCustomer = lineReception.shift();
-                        nextCustomer.startTime = time;
-                        lineExpress.push(nextCustomer);
-                    }
-                } else {
-                    if (acceptedCustomer || lineStandard.length == 0 || (time - lineStandard[0].startTime < maxWaitingTime)) {
-                        nextCustomer = lineReception.shift();
-                        nextCustomer.startTime = time;
-                        lineStandard.push(nextCustomer);
-                    }
-                }
+            if (acceptedCustomer || lineStandard.length == 0 || (time - lineStandard[0].startTime < maxWaitingTime)) {
+                nextCustomer.startTime = time;
+                lineStandard.push(nextCustomer);
             }
         }
+    }
+
+    if (customerServingTime >= 0) {
+        document.getElementById("servingCustomerTime").innerHTML = customerServingTime;
+        customerServingTime--;
+    } else {
+        document.getElementById("receptionLine").style.display = "flex";
+        document.getElementById("receptionCustomer").style.display = "none";
     }
 }
 
@@ -596,14 +616,12 @@ function selectStartSector(e) {
 
 function selectMainSector(e) {
 
-    // change selected tab css class
     let tabFooters = document.getElementsByClassName("tabMainFooter");
     for (let t of tabFooters) {
         t.className = t.className.replace(" tabActive", "");
     }
     e.currentTarget.className += " tabActive";
 
-    // select corresponding sector
     switch (parseInt(e.currentTarget.tabIndex)) {
         case 3:
             document.getElementById("lines").style.display = "flex";
@@ -677,17 +695,24 @@ function tellerDeactivate() {
 }
 
 function tellerChangeType() {
-    let tellerSelectType = document.getElementById("tellerSelectType");
     let tellerTypeSelected = document.getElementById("tellerTypeSelected");
+    let tellerSelectType;
+    if (document.getElementById("priorityInputSelectedTeller").checked) {
+        tellerSelectType = Type.priority;
+    } else if (document.getElementById("expressInputSelectedTeller").checked) {
+        tellerSelectType = Type.express;
+    } else {
+        tellerSelectType = Type.standard;
+    }
 
-    switch (tellerSelectType.value) {
-        case "express":
-            selectedTeller.type = Type.express;
-            tellerTypeSelected.innerHTML = Type.express.toString();
-            break;
-        case "priority":
+    switch (tellerSelectType) {
+        case Type.priority:
             selectedTeller.type = Type.priority;
             tellerTypeSelected.innerHTML = Type.priority.toString();
+            break;
+        case Type.express:
+            selectedTeller.type = Type.express;
+            tellerTypeSelected.innerHTML = Type.express.toString();
             break;
         default:
             selectedTeller.type = Type.standard;
@@ -702,7 +727,7 @@ function tellerChangeType() {
 }
 
 function tellerChangePro() {
-    let tellerSelectPro = document.getElementById("tellerSelectPro");
+    let tellerRadioPro = document.getElementById("proInput");
     let tellerImage;
     for (let child of document.getElementById("tellerSelected").children) {
         if (child.className.includes("tellerImage")) {
@@ -710,14 +735,16 @@ function tellerChangePro() {
             break;
         }
     }
-    if (tellerSelectPro.value == "pro") {
+    if (!selectedTeller.pro) {
         if (!tellerImage.className.includes("pro")) {
             tellerImage.className += " pro";
         }
         selectedTeller.pro = true;
+        tellerRadioPro.checked = true;
     } else {
         tellerImage.className = tellerImage.className.replace(" pro", "");
         selectedTeller.pro = false;
+        tellerRadioPro.checked = false;
     }
 }
 
@@ -728,8 +755,11 @@ function tellerSelect(e) {
     selectedTeller = tellers.get(e.currentTarget.id.replace("teller", ""));
 
     let tellerSelected = document.getElementById("tellerSelected");
-    let tellerSelectedPro = document.getElementById("tellerSelectPro");
-    let tellerSelectedType = document.getElementById("tellerSelectType");
+    let tellerRadioPro = document.getElementById("proInput");
+    let tellerRadioStandard = document.getElementById("standardInputSelectedTeller");
+    let tellerRadioPriority = document.getElementById("priorityInputSelectedTeller");
+    let tellerRadioExpress = document.getElementById("expressInputSelectedTeller");
+
     let tellerNumberSelected = document.getElementById("tellerNumberSelected");
     let tellerTypeSelected = document.getElementById("tellerTypeSelected");
     let tellerEnable = document.getElementById("tellerEnable");
@@ -748,21 +778,27 @@ function tellerSelect(e) {
         tellerTypeSelected.innerHTML = selectedTeller.type.toString();
 
         if (selectedTeller.pro) {
-            tellerSelectedPro.value = "pro";
+            tellerRadioPro.checked = true;
         } else {
-            tellerSelectedPro.value = "regular";
+            tellerRadioPro.checked = false;
         }
-        tellerSelectedPro.disabled = true;
+        tellerRadioPro.disabled = true;
 
         switch (selectedTeller.type) {
             case Type.priority:
-                tellerSelectedType.value = "priority";
+                tellerRadioPriority.checked = true;
+                tellerRadioExpress.checked = false;
+                tellerRadioStandard.checked = false;
                 break;
             case Type.express:
-                tellerSelectedType.value = "express";
+                tellerRadioPriority.checked = false;
+                tellerRadioExpress.checked = true;
+                tellerRadioStandard.checked = false;
                 break;
             default:
-                tellerSelectedType.value = "standard";
+                tellerRadioPriority.checked = false;
+                tellerRadioExpress.checked = false;
+                tellerRadioStandard.checked = true;
                 break;
         }
 
@@ -779,9 +815,9 @@ function tellerSelect(e) {
         tellerDisable.style.display = "flex";
     } else {
         tellerTypeSelected.innerHTML = Type.standard.toString();
-        tellerSelectedPro.value = "regular";
-        tellerSelectedPro.disabled = false;
-        tellerSelectedType.selectedIndex = 0;
+        tellerRadioPro.checked = false;
+        tellerRadioPro.disabled = false;
+        tellerRadioStandard.checked = true;
 
         tellerImage.className = tellerImage.className.replace(" pro", "");
         tellerEnable.style.display = "flex";
@@ -805,17 +841,17 @@ function tellerSelect(e) {
     }
 
     if (!match) {
-        tellerEnable.disabled = true;
         if (!tellerEnable.className.includes(" disabledButton")) {
             tellerEnable.className += " disabledButton";
         }
     } else {
-        tellerEnable.disabled = false;
         tellerEnable.className = tellerEnable.className.replace(" disabledButton", "");
     }
 
     if (selectedTeller.active) {
-        tellerSelected.className += " tellerEnabled";
+        if (!tellerSelected.className.includes(" tellerEnabled")) {
+            tellerSelected.className += " tellerEnabled";
+        }
     } else {
         tellerSelected.className = tellerSelected.className.replace(" tellerEnabled", "");
     }
@@ -834,47 +870,45 @@ function receptionServe() {
 
         document.getElementById("lineInfoDocuments").innerHTML = lineReception[0].documents;
 
-        let customerType = document.getElementById("customerType");
-        switch (lineReception[0].type) {
+        servingCustomer = lineReception.shift();
+        switch (servingCustomer.type) {
             case Type.express:
-                customerType.value = "express";
+                document.getElementById("expressInputReception").checked = true;
                 break;
             case Type.priority:
-                customerType.value = "priority";
+                document.getElementById("priorityInputReception").checked = true;
                 break;
             default:
-                customerType.value = "standard";
+                document.getElementById("standardInputReception").checked = true;
                 break;
         }
-        customerServingTime = 10;
+        customerServingTime = 9;
         document.getElementById("servingCustomerTime").innerHTML = customerServingTime;
     }
 }
 
 function receptionAccept() {
-    let nextCustomer = lineReception[0];
-    let customerOriginaltype = nextCustomer.type
-    let customerNewType = document.getElementById("customerType");
-    switch (customerNewType.value) {
-        case "express":
-            nextCustomer.type = Type.express;
-            break;
-        case "priority":
-            nextCustomer.type = Type.priority;
-            break;
-        default:
-            nextCustomer.type = Type.standard;
-            break;
+    let nextCustomer = servingCustomer;
+    let customerOriginaltype = nextCustomer.type;
+
+    if (document.getElementById("priorityInputReception").checked) {
+        nextCustomer.type = Type.priority;
+    } else if (document.getElementById("expressInputReception").checked) {
+        nextCustomer.type = Type.express;
+    } else {
+        nextCustomer.type = Type.standard;
     }
+
     if (nextCustomer.type != customerOriginaltype) {
         nextCustomer.complaint = customerComplaint(nextCustomer.rage);
     }
     customerServingTime = -1;
+    servingCustomer = undefined;
     customerEntrance(nextCustomer);
 }
 
 function receptionRefuse() {
-    let nextCustomer = lineReception.shift();
+    let nextCustomer = servingCustomer;
     if (!nextCustomer.complaint) {
         nextCustomer.rage = Math.floor(Math.random() * 10);
         nextCustomer.complaint = customerComplaint(nextCustomer.rage);
@@ -886,6 +920,7 @@ function receptionRefuse() {
     document.getElementById("receptionLine").style.display = "flex";
     document.getElementById("receptionCustomer").style.display = "none";
     customerServingTime = -1;
+    servingCustomer = undefined;
 }
 
 function customerComplaint(rage) {
@@ -996,13 +1031,18 @@ function modalStopCancel() {
 function modalStopConfirm() {
     let buttonStart = document.getElementById("buttonStart");
     let buttonStop = document.getElementById("buttonStop");
-    let difficultySelector = document.getElementById("difficultySelector");
 
     document.getElementById("modalStop").style.display = "none";
-    match = false;
     buttonStart.style.display = "flex";
     buttonStop.style.display = "none";
-    difficultySelector.disabled = false;
+    document.getElementById("easyInput").disabled = false;
+    document.getElementById("hardInput").disabled = false;
+    document.getElementById("normalInput").disabled = false;
+
+    match = false;
+    Game.totalMatches++;
+    saveGame();
+    updateStatistics();
 }
 
 function endGame() {

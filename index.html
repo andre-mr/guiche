@@ -5,6 +5,8 @@
     <!-- vs code default template -->
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Guichê de Caixa</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
@@ -14,13 +16,13 @@
 
     <div class="modalContainer" id="modalStop">
         <div class="modal">
-            <p>Encerrar a partida?</p>
+            <p class="infoText">Encerrar a partida?</p>
             <div class="modalButtonContainer">
                 <button class="actionButton modalButton" id="modalStopCancel">
-                    <p>CANCELAR</p>
+                    <p class="headerText">CANCELAR</p>
                 </button>
                 <button class="actionButton modalButton negativeButton" id="modalStopConfirm">
-                    <p>ENCERRAR</p>
+                    <p class="headerText">ENCERRAR</p>
                 </button>
             </div>
         </div>
@@ -54,16 +56,31 @@
                         expediente creditam parcialmente.</p>
                 </div>
                 <div class="menuInfo" id="startSector">
-                    <select id="difficultySelector">
-                        <option value="easy">Fácil</option>
-                        <option value="normal">Normal</option>
-                        <option value="hard">Difícil</option>
-                    </select>
+                    <div class="inputRow">
+                        <div class="inputItem">
+                            <label for="easyInput" class="difficultyLabel">
+                                <input type="radio" name="difficultyRadio" id="easyInput">
+                                <span>Fácil</span>
+                            </label>
+                        </div>
+                        <div class="inputItem">
+                            <label for="normalInput" class="difficultyLabel">
+                                <input type="radio" name="difficultyRadio" id="normalInput" checked="yes">
+                                <span>Normal</span>
+                            </label>
+                        </div>
+                        <div class="inputItem">
+                            <label for="hardInput" class="difficultyLabel">
+                                <input type="radio" name="difficultyRadio" id="hardInput">
+                                <span>Difícil</span>
+                            </label>
+                        </div>
+                    </div>
                     <button class="actionButton positiveButton" id="buttonStart">
-                        <p>INICIAR</p>
+                        <p class="headerText">INICIAR</p>
                     </button>
                     <button class="actionButton negativeButton" id="buttonStop">
-                        <p>ENCERRAR</p>
+                        <p class="headerText">ENCERRAR</p>
                     </button>
                 </div>
             </div>
@@ -73,10 +90,10 @@
                     <p class="infoTextTitle gridTitle">RECORDES</p>
                     <p class="infoText gridItemLeft">Partidas:&nbsp;</p>
                     <p class="infoText gridItemRight" id="statisticsTotalMatches"></p>
-                    <p class="infoText gridItemLeft">Atendimentos:&nbsp;</p>
-                    <p class="infoText gridItemRight" id="statisticsRecordCalls"></p>
                     <p class="infoText gridItemLeft">Documentos:&nbsp;</p>
                     <p class="infoText gridItemRight" id="statisticsRecordDocuments"></p>
+                    <p class="infoText gridItemLeft">Atendimentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsRecordCalls"></p>
                     <p class="infoText gridItemLeft">Pontos (Fácil):&nbsp;</p>
                     <p class="infoText gridItemRight" id="statisticsRecordScoreEasy"></p>
                     <p class="infoText gridItemLeft">Pontos (Normal):&nbsp;</p>
@@ -86,6 +103,10 @@
                 </div>
                 <div class="statisticsInfo">
                     <p class="infoTextTitle gridTitle">PARTIDA ATUAL</p>
+                    <p class="infoText gridItemLeft">Orçamento:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchCurrentBudget"></p>
+                    <p class="infoText gridItemLeft">Documentos:&nbsp;</p>
+                    <p class="infoText gridItemRight" id="statisticsMatchDocuments"></p>
                     <p class="infoText gridItemLeft">Atendimentos:&nbsp;</p>
                     <p class="infoText gridItemRight" id="statisticsMatchCalls"></p>
                     <p class="infoText gridItemLeft">No Prazo:&nbsp;</p>
@@ -94,19 +115,15 @@
                     <p class="infoText gridItemRight" id="statisticsMatchCallsOvertime"></p>
                     <p class="infoText gridItemLeft">Reclamações:&nbsp;</p>
                     <p class="infoText gridItemRight" id="statisticsMatchComplaints"></p>
-                    <p class="infoText gridItemLeft">Documentos:&nbsp;</p>
-                    <p class="infoText gridItemRight" id="statisticsMatchDocuments"></p>
-                    <p class="infoText gridItemLeft">Orçamento:&nbsp;</p>
-                    <p class="infoText gridItemRight" id="statisticsMatchCurrentBudget"></p>
                 </div>
             </div>
 
             <footer class="subFooter">
                 <button class="tabFooter tabStartFooter" tabindex="1">
-                    <p>MENU</p>
+                    <p class="headerText">MENU</p>
                 </button>
                 <button class="tabFooter tabStartFooter" tabindex="2">
-                    <p>ESTATÍSTICAS</p>
+                    <p class="headerText">ESTATÍSTICAS</p>
                 </button>
             </footer>
 
@@ -235,34 +252,58 @@
                     </div>
 
                     <div id="tellerContentWrapper">
-                        <div class="tellerContent">
-                            <select id="tellerSelectPro">
+                        <!-- <div class="tellerContent"> -->
+                        <!-- <div class="tellerContent"> -->
+                        <!-- <select class="headerText" id="tellerSelectPro">
                                 <option value="regular">Comum</option>
                                 <option value="pro">Pro</option>
                             </select>
-                            <select id="tellerSelectType">
+                            <select class="headerText" id="tellerSelectType">
                                 <option value="standard">Convencional</option>
                                 <option value="priority">Preferencial</option>
                                 <option value="express">Expresso</option>
-                            </select>
+                            </select> -->
+
+                        <div class="progress" id="progressSelected">
+                            <div class="progressBar" id="progressBarSelected"></div>
                         </div>
 
                         <div class="tellerContent">
-                            <button class="actionButton" id="tellerBack">
-                                <p>VOLTAR</p>
-                            </button>
-                            <button class="actionButton positiveButton" id="tellerEnable">
-                                <p>ATIVAR</p>
-                            </button>
-                            <button class="actionButton negativeButton" id="tellerDisable">
-                                <p>DESATIVAR</p>
-                            </button>
+                            <div id="selectedTellerTypeRadios">
+                                <label for="standardInputSelectedTeller" class="typeLabel">
+                                    <input type="radio" name="typeRadio" id="standardInputSelectedTeller" checked="yes">
+                                    <span>Convencional</span>
+                                </label>
+                                <label for="priorityInputSelectedTeller" class="typeLabel">
+                                    <input type="radio" name="typeRadio" id="priorityInputSelectedTeller">
+                                    <span>Preferencial</span>
+                                </label>
+                                <label for="expressInputSelectedTeller" class="typeLabel">
+                                    <input type="radio" name="typeRadio" id="expressInputSelectedTeller">
+                                    <span>Expresso</span>
+                                </label>
+                            </div>
+                            <div id="selectedTellerProRadio">
+                                <label for="proInput" class="typeLabel">
+                                    <input type="radio" name="proRadio" id="proInput">
+                                    <span>Pro</span>
+                                </label>
+                            </div>
                         </div>
+                        <!-- </div> -->
                     </div>
 
                     <div class="tellerFooter">
-                        <div class="progress">
-                            <div class="progressBar" id="progressBarSelected"></div>
+                        <div class="tellerContent">
+                            <button class="actionButton" id="tellerBack">
+                                <p class="headerText">VOLTAR</p>
+                            </button>
+                            <button class="actionButton positiveButton" id="tellerEnable">
+                                <p class="headerText">ATIVAR</p>
+                            </button>
+                            <button class="actionButton negativeButton" id="tellerDisable">
+                                <p class="headerText">DESATIVAR</p>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -340,29 +381,38 @@
                     </div>
                 </div>
                 <button class="actionButton" id="buttonServe">
-                    <p>ATENDER</p>
+                    <p class="headerText">ATENDER</p>
                 </button>
             </div>
             <div class="reception" id="receptionCustomer">
                 <p class="headerText infoTextTitle">CLIENTE</p>
                 <div class="lineInfoContainer" id="receptionCustomerInfo">
                     <div>
-                        <p class="lineInfo infoText">Documentos:&nbsp;</p>
-                        <p class="lineInfo infoText" id="lineInfoDocuments">10</p>
+                        <p class="lineInfo">Documentos:&nbsp;</p>
+                        <p class="lineInfo" id="lineInfoDocuments">10</p>
                     </div>
-                    <p class="lineInfo" id="servingCustomerTime">10</p>
-                    <select id="customerType">
-                        <option value="standard">Convencional</option>
-                        <option value="priority">Preferencial</option>
-                        <option value="express">Expresso</option>
-                    </select>
+                    <div id="receptionCustomerTypeRadios">
+                        <label for="standardInputReception" class="typeLabel">
+                            <input type="radio" name="typeRadio" id="standardInputReception">
+                            <span>Convencional</span>
+                        </label>
+                        <label for="priorityInputReception" class="typeLabel">
+                            <input type="radio" name="typeRadio" id="priorityInputReception">
+                            <span>Preferencial</span>
+                        </label>
+                        <label for="expressInputReception" class="typeLabel">
+                            <input type="radio" name="typeRadio" id="expressInputReception">
+                            <span>Expresso</span>
+                        </label>
+                    </div>
                 </div>
                 <div id="actionButtonCustomerContainer">
                     <button class="actionButton negativeButton" id="buttonCustomerRefuse">
-                        <p>RECUSAR</p>
+                        <p class="headerText">RECUSAR</p>
                     </button>
+                    <p class="lineInfo" id="servingCustomerTime">9</p>
                     <button class="actionButton positiveButton" id="buttonCustomerAccept">
-                        <p>ACEITAR</p>
+                        <p class="headerText">ACEITAR</p>
                     </button>
                 </div>
             </div>
@@ -371,13 +421,13 @@
 
     <footer class="mainFooter">
         <button class="tabFooter tabMainFooter" tabindex="1">
-            <p>INÍCIO</p>
+            <p class="headerText">INÍCIO</p>
         </button>
         <button class="tabFooter tabMainFooter" tabindex="2">
-            <p>GUICHÊS</p>
+            <p class="headerText">GUICHÊS</p>
         </button>
         <button class="tabFooter tabMainFooter" tabindex="3">
-            <p>FILAS</p>
+            <p class="headerText">FILAS</p>
         </button>
     </footer>
 
