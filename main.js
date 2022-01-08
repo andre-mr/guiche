@@ -305,9 +305,9 @@ function generateCustomers() {
             customer.type = Type.standard;
         }
         if (customer.type == Type.priority) {
-            customer.documents = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+            customer.documents = Math.floor(Math.random() * (60 - 15 + 1)) + 15;
         } else {
-            customer.documents = Math.floor(Math.random() * (40 - 5 + 1)) + 5;
+            customer.documents = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
         }
         if (time > 840) {
             generationDelay = Math.floor(Math.random() * 5) + 1;
@@ -317,19 +317,19 @@ function generateCustomers() {
 
         switch (difficulty) {
             case Difficulty.easy:
-                customer.rage = Math.floor(Math.random() * 4) + 1;
+                customer.rage = Math.floor(Math.random() * 5) + 1;
                 break;
 
             case Difficulty.hard:
-                customer.rage = Math.floor(Math.random() * 8) + 1;
+                customer.rage = Math.floor(Math.random() * 9) + 1;
                 break;
 
             default:
-                customer.rage = Math.floor(Math.random() * 6) + 1;
+                customer.rage = Math.floor(Math.random() * 7) + 1;
                 break;
         }
 
-        if (customer.documents <= 10 || ((time >= 720 && time < 780) && customer.documents <= 20)) {
+        if (customer.documents <= 15 || ((time >= 720 && time < 780) && customer.documents <= 20)) {
             customer.type = Type.express;
         }
 
