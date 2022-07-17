@@ -2,7 +2,7 @@
 A game that simulates a work day for a bank teller environment.
 
 <!-- PUBLISHED LINK -->
-:link: [Open project hosted in AWS Amplify](https://main.d2yhxng3an37h2.amplifyapp.com/)
+:link: [Open project hosted in AWS Amplify](https://guiche.andremr.dev/)
 
 <!-- ABOUT -->
 ## :page_with_curl:	About the project
