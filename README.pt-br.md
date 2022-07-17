@@ -2,7 +2,7 @@
 Um jogo que simula uma jornada de trabalho para ambiente de caixa de banco.
 
 <!-- LINK DA PUBLICAÇÃO -->
-:link: [Abra o projeto hospedado no AWS Amplify](https://main.d2yhxng3an37h2.amplifyapp.com/)
+:link: [Abra o projeto hospedado no AWS Amplify](https://guiche.andremr.dev/)
 
 <!-- SOBRE -->
 ## :page_with_curl: Sobre o projeto
